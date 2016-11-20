@@ -1,0 +1,45 @@
+h1 {
+	margin-bottom: 20px;
+}
+
+.week-nav {
+	display: -webkit-flex; /* Webkit works for Safari */
+	display: flex;
+
+	-webkit-flex-direction: row;
+	flex-direction: row;
+
+	-webkit-justify-content: center;
+	justify-content: center;
+
+	margin-bottom: 20px;
+}
+
+.games .row:not(:first-child) {
+	margin-top: 20px;
+}
+
+.previous-week span {
+	margin-right: 5px;
+}
+
+.current-week {
+	margin: auto;
+}
+
+.next-week span {
+	margin-left: 5px;
+}
+
+.game {
+	background-color: #5cb85c;
+	border: 1px solid;
+}
+
+/* Hack to give me correct offset amount. Found from:
+	http://stackoverflow.com/questions/30846378/bootstrap-center-3-col-md-3-divs */
+@media (min-width: 1200px) {
+	.col-offset-half {
+	    margin-left: 4.16666666666667%;
+	}
+}

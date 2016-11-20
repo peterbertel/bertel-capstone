@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Week 1</title>
+	{% load static %}
+
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+	<link rel="stylesheet" type="text/css" href="{% static 'nfl_scores/main.css' %}">
+
+</head>
+<body>
+	<nav class="navbar navbar-default text-center">
+		<h1>NFL Game Scores</h1>
+	</nav>
+	<div class="week-nav text-center container">
+		<div class="previous-week btn btn-default">
+			<h4><span>&lt;</span>11</h4>
+		</div>
+			<!-- Need to make a div for the stuff in the center, so the dropdown will align properly
+			See http://getbootstrap.com/components/#dropdowns -->
+		<div class="current-week dropdown">
+			<button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+		    	<h4>Week 12 <span class="caret"></span></h4>
+		  	</button>
+		  	<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+			    <li><a href="#">10</a></li>
+			    <li><a href="#">9</a></li>
+				</ul>
+		</div>
+		<div class="next-week btn btn-default">
+			<h4>13<span>&gt;</span></h4>
+		</div>
+	</div>
+
+	<div class="games container-fluid">
+		<div class="row text-center">
+			<div class="col-lg-3 col-lg-offset-1 game">Game 1</div>
+			<div class="col-lg-3 col-offset-half game">Game 2</div>
+			<div class="col-lg-3 col-offset-half game">Game 3</div>
+		</div>
+		<div class="row text-center">
+			<div class="col-lg-3 col-lg-offset-1 game">Game 4</div>
+			<div class="col-lg-3 col-offset-half game">Game 5</div>
+			<div class="col-lg-3 col-offset-half game">Game 6</div>
+		</div>
+		<div class="row text-center">
+			<div class="col-lg-3 col-lg-offset-1 game">Game 7</div>
+			<div class="col-lg-3 col-offset-half game">Game 8</div>
+			<div class="col-lg-3 col-offset-half game">Game 9</div>
+		</div>
+	</div>
+
+
+	{% for game in games %}
+		<p>The games are: {{game}}</p>
+		<!-- This is where you would print the view for each game -->
+	{% endfor %}
+</body>
+	<script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+</html>
