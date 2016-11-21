@@ -39,11 +39,16 @@ h1 {
 /* Hack to give me correct offset amount. Found from:
 	http://stackoverflow.com/questions/30846378/bootstrap-center-3-col-md-3-divs */
 @media (min-width: 992px) {
-	.col-offset-half {
-	    margin-left: 4.16666666666667%;
-	}
 	.game:nth-child(n+4) {
 		margin-top: 20px;
+	}
+
+	.game:nth-child(3n+1) {
+		margin-left: 8.3333333333%;
+	}
+
+	.game:not(:nth-child(3n+1)) {
+		margin-left: 4.16666666666667%;
 	}
 }
 
