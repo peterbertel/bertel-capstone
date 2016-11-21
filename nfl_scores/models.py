@@ -38,6 +38,6 @@ class Game(models.Model):
 
 	def __str__(self):
 		# return 'The %s played the %s in week %s' (self.home_team, self.away_team, self.week)
-		return 'Week: %s, The %s scored %s points against the %s, who scored %s points' % (self.week, self.home_team, \
-			self.home_score, self.away_team, self.away_score)
+		return 'Week: %s, The %s scored %s points against the %s, who scored %s points' % (self.week, self.home_team.name, \
+			self.home_score, self.away_team.name, self.away_score)
 

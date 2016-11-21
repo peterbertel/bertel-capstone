@@ -21,15 +21,18 @@
 		    	<h4>Week 12 <span class="caret"></span></h4>
 		  	</button>
 		  	<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-			    <li><a href="#">10</a></li>
-			    <li><a href="#">9</a></li>
-				</ul>
+		  		<!-- Hack to show all 17 weeks, found from
+		  		http://stackoverflow.com/questions/1107737/numeric-for-loop-in-django-templates-->
+			    {% for i in "aaaaaaaaaaaaaaaaa" %}
+			    	<li><a href="#{{forloop.counter}}">{{forloop.counter}}</a></li>
+				{% endfor %}
+			</ul>
 		</div>
 		<div class="next-week btn btn-default">
 			<h4>13<span>&gt;</span></h4>
 		</div>
 	</div>
-	<div class="games container-fluid">
+	<!-- <div class="games container-fluid">
 		<div class="row text-center">
 			<div class="col-md-3 col-sm-5 col-xs-10 game">Game 1</div>
 			<div class="col-md-3 col-sm-5 col-xs-10 game">Game 2</div>
@@ -41,11 +44,31 @@
 			<div class="col-md-3 col-sm-5 col-xs-10 game">Game 8</div>
 			<div class="col-md-3 col-sm-5 col-xs-10 game">Game 9</div>
 		</div>
+	</div> -->
+	<div class="games container-fluid">
+		<div class="row text-center">
+		{% for game in games %}
+			<div class="col-md-3 col-sm-5 col-xs-10 game">
+				<h4 class="text-left">{{game.home_team.name}} 
+					<span class="record"> {{game.home_team.wins}}-{{game.home_team.losses}}</span>
+					{% if game.home_score >= game.away_score %}
+						<span class="winning-score">{{game.home_score}}</span>
+					{% else %}
+						<span class="losing-score">{{game.home_score}}</span>
+					{% endif %}
+				</h4>
+				<h4 class="text-left">{{game.away_team.name}} 
+					<span class="record"> {{game.away_team.wins}}-{{game.away_team.losses}}</span>
+					{% if game.away_score >= game.home_score %}
+						<span class="winning-score">{{game.away_score}}</span>
+					{% else %}
+						<span class="losing-score">{{game.away_score}}</span>
+					{% endif %}
+				</h4>
+			</div>
+		{% endfor %}
+		</div>
 	</div>
-	{% for game in games %}
-		<p>The games are: {{game}}</p>
-		<!-- This is where you would print the view for each game -->
-	{% endfor %}
 </body>
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
