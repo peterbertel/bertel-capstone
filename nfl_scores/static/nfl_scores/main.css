@@ -38,8 +38,33 @@ h1 {
 
 /* Hack to give me correct offset amount. Found from:
 	http://stackoverflow.com/questions/30846378/bootstrap-center-3-col-md-3-divs */
-@media (min-width: 1200px) {
+@media (min-width: 992px) {
 	.col-offset-half {
 	    margin-left: 4.16666666666667%;
+	}
+	.game:nth-child(n+4) {
+		margin-top: 20px;
+	}
+}
+
+@media (max-width: 991px) and (min-width: 768px) {
+	.game:nth-child(even) {
+		margin-left: 4.16666666666667%;
+	}
+	.game:nth-child(odd) {
+		margin-left: 6.25%;
+	}
+	.game:nth-child(n+3) {
+		margin-top: 20px;
+	}
+}
+
+@media (max-width: 767px) {
+	.game {
+		margin-left: 8.333333333334%;
+	}
+
+	.game:not(:first-child) {
+		margin-top: 20px;
 	}
 }
