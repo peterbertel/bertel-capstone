@@ -1,11 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Week {{week}}</title>
+	<title>NFL Week {{week}}</title>
 	{% load static %}
-
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-
 	<link rel="stylesheet" type="text/css" href="{% static 'nfl_scores/main.css' %}">
 </head>
 <body>
@@ -13,12 +11,12 @@
 		<h1>NFL Game Scores</h1>
 	</nav>
 	<div class="week-nav text-center container">
-		{% if week == "1" %}
+		{% if week == 1 %}
 			<div class="previous-week btn btn-default blank-button">
 				<h4><span>&lt;</span>{{week|add:"-1"}}</h4>
 			</div>
 		{% else %}
-			<a href="/week_view/{{week|add:'-1'}}">
+			<a href="?w={{week|add:'-1'}}">
 				<div class="previous-week btn btn-default">
 					<h4><span>&lt;</span>{{week|add:"-1"}}</h4>
 				</div>
@@ -32,16 +30,16 @@
 		  		<!-- Hack to show all 17 weeks, found from
 		  		http://stackoverflow.com/questions/1107737/numeric-for-loop-in-django-templates-->
 			    {% for i in "aaaaaaaaaaaaaaaaa" %}
-					<li><a href="/week_view/{{forloop.counter}}">{{forloop.counter}}</a></li>
+					<li><a href="?w={{forloop.counter}}">{{forloop.counter}}</a></li>
 				{% endfor %}
 			</ul>
 		</div>
-		{% if week == "17" %}
+		{% if week == 17 %}
 			<div class="next-week btn btn-default blank-button">
 				<h4>{{week|add:"1"}}<span>&gt;</span></h4>
 			</div>
 		{% else %}
-			<a href="/week_view/{{week|add:'1'}}">
+			<a href="?w={{week|add:'1'}}">
 				<div class="next-week btn btn-default">
 					<h4>{{week|add:"1"}}<span>&gt;</span></h4>
 				</div>
