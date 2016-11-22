@@ -19,5 +19,6 @@ from nfl_scores import views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^week_view/', views.week_view, name="week_view"),
+    url(r'^week_view/$', views.week_view, name="week_view"),
+    url(r'^week_view/([2-9]|1[0-7]?)/$', views.week_view, name="specific_week_view"),
 ]

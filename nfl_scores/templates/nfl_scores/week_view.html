@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Week 1</title>
+	<title>Week {{week}}</title>
 	{% load static %}
 
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
@@ -13,24 +13,40 @@
 		<h1>NFL Game Scores</h1>
 	</nav>
 	<div class="week-nav text-center container">
-		<div class="previous-week btn btn-default">
-			<h4><span>&lt;</span>11</h4>
-		</div>
+		{% if week == "1" %}
+			<div class="previous-week btn btn-default blank-button">
+				<h4><span>&lt;</span>{{week|add:"-1"}}</h4>
+			</div>
+		{% else %}
+			<a href="/week_view/{{week|add:'-1'}}">
+				<div class="previous-week btn btn-default">
+					<h4><span>&lt;</span>{{week|add:"-1"}}</h4>
+				</div>
+			</a>
+		{% endif %}
 		<div class="current-week dropdown">
 			<button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-		    	<h4>Week 12 <span class="caret"></span></h4>
+				<h4>Week {{week}} <span class="caret"></span></h4>
 		  	</button>
 		  	<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
 		  		<!-- Hack to show all 17 weeks, found from
 		  		http://stackoverflow.com/questions/1107737/numeric-for-loop-in-django-templates-->
 			    {% for i in "aaaaaaaaaaaaaaaaa" %}
-			    	<li><a href="#{{forloop.counter}}">{{forloop.counter}}</a></li>
+					<li><a href="/week_view/{{forloop.counter}}">{{forloop.counter}}</a></li>
 				{% endfor %}
 			</ul>
 		</div>
-		<div class="next-week btn btn-default">
-			<h4>13<span>&gt;</span></h4>
-		</div>
+		{% if week == "17" %}
+			<div class="next-week btn btn-default blank-button">
+				<h4>{{week|add:"1"}}<span>&gt;</span></h4>
+			</div>
+		{% else %}
+			<a href="/week_view/{{week|add:'1'}}">
+				<div class="next-week btn btn-default">
+					<h4>{{week|add:"1"}}<span>&gt;</span></h4>
+				</div>
+			</a>
+		{% endif %}
 	</div>
 	<!-- <div class="games container-fluid">
 		<div class="row text-center">

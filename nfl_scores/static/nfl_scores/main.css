@@ -31,6 +31,12 @@ h1 {
 	margin-left: 5px;
 }
 
+.blank-button {
+	color: white;
+	border: none;
+	pointer-events:none;
+}
+
 .game {
 	background-color: #5cb85c;
 	border: 1px solid;
