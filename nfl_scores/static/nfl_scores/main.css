@@ -42,6 +42,10 @@ h1 {
 	border: 1px solid;
 }
 
+.game input {
+	display: none;
+}
+
 .record {
 	font-size: 11px;
 }
@@ -53,6 +57,27 @@ h1 {
 
 .losing-score {
 	float: right;
+	font-weight: 400;
+}
+
+.game-quarters {
+	display: none;
+	background-color: red;
+}
+
+.team-game-data {
+	float: left;
+	margin-top: 5%;
+}
+
+.quarter-points {
+	float: right;
+	font-size: 400;
+}
+
+th, td {
+	padding-left: 10px;
+	font-size: 18px;
 	font-weight: 400;
 }
 
