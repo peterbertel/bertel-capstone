@@ -24,7 +24,6 @@ def load_games(request):
 	
 	# maybe need to load in the teams first
 	n = 0
-
 	w = int(request.GET.get('w', 1))
 	games = nflgame.games(2016, week=w)
 
@@ -32,8 +31,19 @@ def load_games(request):
 		return HttpResponse('This week has not happened yet, get the data some other way')
 
 	for game in games:
-		home_team = Team.objects.filter(short_name=game.home)
-		away_team = Team.objects.filter(short_name=game.away)
+
+		home_name = str(game.home)
+		away_name = str(game.away)
+
+		# Small hack in case the Jacksonville Jaguars games are inputted
+		# with 'JAX' and not 'JAC'
+		if str(game.home) == 'JAX':
+			home_name = 'JAC'
+		elif str(game.away) == 'JAX':
+			away_name = 'JAC'
+
+		home_team = Team.objects.filter(short_name=home_name)[0]
+		away_team = Team.objects.filter(short_name=away_name)[0]
 
 		g = Game(home_team=home_team, away_team=away_team, week=w, home_score=game.score_home, away_score=game.score_away, \
 			home_points_q1=game.score_home_q1, home_points_q2=game.score_home_q2, home_points_q3=game.score_home_q3, \
@@ -42,21 +52,21 @@ def load_games(request):
 
 		g.save()
 		n += 1
-
 	return HttpResponse('Loaded %d games' % n)
 
 def load_teams(request):
-
+	n = 0
 	# parses the teams so we can interpret them better
 	for team in nflgame.teams:
 		# This is done to avoid the duplication of the old St. Louis Rams
 		#	and the new Los Angeles Rams in the nflgame database
-		if team[0] == "STL":
+		if str(team[0]) == "STL":
 			continue
 
-		t = Team(short_name=team[0], long_name=team[2])
+		t = Team(short_name=str(team[0]), long_name=str(team[2]))
 		t.save()
-	return HttpResponse('Loaded the teams:')
+		n += 1
+	return HttpResponse('Loaded %d teams:' % n)
 
 def update_records(request):
 	return HttpResponse("Updated the teams's records")
