@@ -6,27 +6,28 @@ from .models import Team, Game
 import nflgame
 
 def week_view(request):
-	teams = Team.objects.all()
-	games = Game.objects.all() #instead, filter the games based on the week
-
 	w = int(request.GET.get('w', 1))
 
-	context = {'games': games, 'teams': teams, 'week': w}
+	teams = Team.objects.all()
+	games = Game.objects.filter(week=w)
+
+	context = {'games': games, 'week': w}
 
 	return render(request, 'nfl_scores/week_view.html', context)
 
 def load_games(request):
-	# do all this only after the teams have been updated in the DB
 	# check if there are games for the given weeks
 		#basically, see if there is any updated nfl game data you need to load into your db
 	# use the nflgame module to load in the games you don't have
 	# if it is a week that has not happened yet, populate the data with an external api
-	
-	# maybe need to load in the teams first
+
+	# How do I check if a game already exists in the db?
+	# Also, how do I update a game in the database? Like the chiefs and raiders game
+
+
 	n = 0
 	w = int(request.GET.get('w', 1))
 	games = nflgame.games(2016, week=w)
-
 	if len(games) == 0:
 		return HttpResponse('This week has not happened yet, get the data some other way')
 
@@ -45,6 +46,10 @@ def load_games(request):
 		home_team = Team.objects.filter(short_name=home_name)[0]
 		away_team = Team.objects.filter(short_name=away_name)[0]
 
+		# If the game is already in the database, don't add it again
+		if len(Game.objects.filter(home_team=home_team, away_team=away_team, week=w)) > 0:
+			continue
+
 		g = Game(home_team=home_team, away_team=away_team, week=w, home_score=game.score_home, away_score=game.score_away, \
 			home_points_q1=game.score_home_q1, home_points_q2=game.score_home_q2, home_points_q3=game.score_home_q3, \
 			home_points_q4=game.score_home_q4, away_points_q1=game.score_away_q1, away_points_q2=game.score_away_q2, \
@@ -52,6 +57,7 @@ def load_games(request):
 
 		g.save()
 		n += 1
+
 	return HttpResponse('Loaded %d games' % n)
 
 def load_teams(request):
