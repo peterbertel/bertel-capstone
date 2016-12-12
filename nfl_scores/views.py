@@ -1,12 +1,17 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 
+# per-view caching found from
+#	 https://docs.djangoproject.com/en/1.10/topics/cache/
+from django.views.decorators.cache import cache_page
+
 from .models import Team, Game
 
 import nflgame
 import httplib
 import json
 
+@cache_page(60 * 5)
 def week_view(request):
 	w = int(request.GET.get('w', 1))
 
@@ -109,6 +114,7 @@ def load_teams(request):
 def update_records(request):
 	return HttpResponse("Updated the teams's records")
 
+@cache_page(60 * 5)
 def standings(request):
 	conn = httplib.HTTPSConnection("api.sportradar.us")
 	conn.request("GET", "/nfl-ot1/seasontd/2016/standings.json?api_key=mk5mjt48drputswsxqct2uac")
