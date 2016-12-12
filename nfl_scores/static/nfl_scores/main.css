@@ -98,16 +98,19 @@ th, td {
 	.game:not(:nth-child(3n+1)), .future-game:not(:nth-child(3n+1)) {
 		margin-left: 4.16666666666667%;
 	}
+	.conference:nth-child(1) {
+		margin-left: 22.75%;
+	}
 }
 
 @media (max-width: 991px) and (min-width: 768px) {
-	.game:nth-child(even), .future-game:nth-child(even) {
+	.game:nth-child(even), .future-game:nth-child(even), .conference:nth-child(even) {
 		margin-left: 4.16666666666667%;
 	}
-	.game:nth-child(odd), .future-game:nth-child(odd) {
+	.game:nth-child(odd), .future-game:nth-child(odd), .conference:nth-child(odd) {
 		margin-left: 6.25%;
 	}
-	.game:nth-child(n+3), .future-game:nth-child(n+3) {
+	.game:nth-child(n+3), .future-game:nth-child(n+3), .conference:nth-child(n+3) {
 		margin-top: 20px;
 	}
 }
@@ -123,10 +126,6 @@ th, td {
 }
 
 @media (min-width: 768px) {
-	.conference:nth-child(1) {
-		margin-left: 6.25%;
-	}
-
 	.conference:not(:nth-child(1)) {
 		margin-left: 4.16666666666667%;
 	}

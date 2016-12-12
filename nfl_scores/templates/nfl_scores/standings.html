@@ -14,7 +14,7 @@
 	<div class="container-fluid">
 		<div class="row text-center">
 		{% for conference in data.conferences %}
-			<div class="col-md-5 col-sm-5 col-xs-10 conference">
+			<div class="col-md-3 offset-md-4 col-sm-5 col-xs-10 conference">
 				<h1 class="text-center">{{conference.name}}</h1>
 				{% for division in conference.divisions %}
 					<h2 class="text-left"><u>{{division.name}}</u></h2>
