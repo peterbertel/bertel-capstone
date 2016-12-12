@@ -15,6 +15,10 @@ h1 {
 	margin-bottom: 20px;
 }
 
+.team-search {
+	margin-bottom: 20px;
+}
+
 .games .row:not(:first-child) {
 	margin-top: 20px;
 }
@@ -91,7 +95,7 @@ th, td {
 		margin-top: 20px;
 	}
 
-	.game:nth-child(3n+1), .future-game:nth-child(3n+1) {
+	.game:nth-child(3n+1), .future-game:nth-child(3n+1), .team-search {
 		margin-left: 8.3333333333%;
 	}
 
@@ -107,7 +111,7 @@ th, td {
 	.game:nth-child(even), .future-game:nth-child(even), .conference:nth-child(even) {
 		margin-left: 4.16666666666667%;
 	}
-	.game:nth-child(odd), .future-game:nth-child(odd), .conference:nth-child(odd) {
+	.game:nth-child(odd), .future-game:nth-child(odd), .conference:nth-child(odd), .team-search {
 		margin-left: 6.25%;
 	}
 	.game:nth-child(n+3), .future-game:nth-child(n+3), .conference:nth-child(n+3) {
@@ -116,7 +120,7 @@ th, td {
 }
 
 @media (max-width: 767px) {
-	.game, .conference, .future-game {
+	.game, .conference, .future-game, .team-search {
 		margin-left: 8.333333333334%;
 	}
 
