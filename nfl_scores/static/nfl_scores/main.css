@@ -37,7 +37,7 @@ h1 {
 	pointer-events:none;
 }
 
-.game, .conference {
+.game, .conference, .future-game {
 	background-color: #5cb85c;
 	border: 1px solid;
 }
@@ -84,37 +84,37 @@ th, td {
 /* Hack to give me correct offset amount. Found from:
 	http://stackoverflow.com/questions/30846378/bootstrap-center-3-col-md-3-divs */
 @media (min-width: 992px) {
-	.game:nth-child(n+4) {
+	.game:nth-child(n+4), .future-game:nth-child(n+4) {
 		margin-top: 20px;
 	}
 
-	.game:nth-child(3n+1) {
+	.game:nth-child(3n+1), .future-game:nth-child(3n+1) {
 		margin-left: 8.3333333333%;
 	}
 
-	.game:not(:nth-child(3n+1)) {
+	.game:not(:nth-child(3n+1)), .future-game:not(:nth-child(3n+1)) {
 		margin-left: 4.16666666666667%;
 	}
 }
 
 @media (max-width: 991px) and (min-width: 768px) {
-	.game:nth-child(even) {
+	.game:nth-child(even), .future-game:nth-child(even) {
 		margin-left: 4.16666666666667%;
 	}
-	.game:nth-child(odd) {
+	.game:nth-child(odd), .future-game:nth-child(odd) {
 		margin-left: 6.25%;
 	}
-	.game:nth-child(n+3) {
+	.game:nth-child(n+3), .future-game:nth-child(n+3) {
 		margin-top: 20px;
 	}
 }
 
 @media (max-width: 767px) {
-	.game, .conference {
+	.game, .conference, .future-game {
 		margin-left: 8.333333333334%;
 	}
 
-	.game:not(:first-child), .conference:not(:first-child) {
+	.game:not(:first-child), .conference:not(:first-child), .future-game:not(:first-child) {
 		margin-top: 20px;
 	}
 }

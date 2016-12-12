@@ -12,15 +12,26 @@ def week_view(request):
 
 	teams = Team.objects.all()
 	games = Game.objects.filter(week=w)
+	future_games = []
 
 	if len(games) == 0:
 		# create a bunch of fake games here, getting them from cache or the sportradar api
 		# think about how you want to change the week_view template for the future games
 		# 	need a way to show the records instead of the final score. Also, the games should
 		#	not be clickable
-		return HttpResponse('This week has not happened yet, that sucks')
+		conn = httplib.HTTPSConnection("api.sportradar.us")
 
-	context = {'games': games, 'week': w}
+		conn.request("GET", "/nfl-ot1/games/2016/reg/schedule.json?api_key=mk5mjt48drputswsxqct2uac")
+
+		res = conn.getresponse()
+		data = res.read()
+		data = data.decode("utf-8")
+		data = json.loads(data)
+		# data['weeks'][w-1]['games'][0]['away']['name']
+		future_games = data['weeks'][w-1]['games']
+		# return HttpResponse('This week has not happened yet, that sucks' + str(future_games))
+
+	context = {'games': games, 'week': w, 'future_games': future_games}
 
 	return render(request, 'nfl_scores/week_view.html', context)
 
@@ -38,15 +49,16 @@ def load_games(request):
 	w = int(request.GET.get('w', 1))
 	games = nflgame.games(2016, week=w)
 	if len(games) == 0:
-		return HttpResponse('This week has not happened yet, get the data some other way')
 		# conn = httplib.HTTPSConnection("api.sportradar.us")
 
-		# conn.request("GET", "/nfl-ot1/games/2006/reg/schedule.xml?api_key=mk5mjt48drputswsxqct2uac")
+		# conn.request("GET", "/nfl-ot1/games/2016/reg/schedule.json?api_key=mk5mjt48drputswsxqct2uac")
 
 		# res = conn.getresponse()
 		# data = res.read()
 		# data = data.decode("utf-8")
 		# data = json.loads(data)
+		# import pdb; pdb.set_trace()
+		return HttpResponse('This week has not happened yet, get the data some other way')
 
 		# here, enter the debugger and see if you can get games for the week,
 		# show the teams records on the right instead of the final score
