@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>NFL Standings</title>
+	{% load static %}
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+	<link rel="stylesheet" type="text/css" href="{% static 'nfl_scores/main.css' %}">
+</head>
+<body>
+	<nav class="navbar navbar-default text-center">
+		<h1>NFL Standings</h1>
+		<a href=""><h4 class="text-center" onclick="history.back(-1)">Scores</h4></a>
+	</nav>
+	<div class="container-fluid">
+		<div class="row text-center">
+		{% for conference in data.conferences %}
+			<div class="col-md-5 col-sm-5 col-xs-10 conference">
+				<h1 class="text-center">{{conference.name}}</h1>
+				{% for division in conference.divisions %}
+					<h2 class="text-left"><u>{{division.name}}</u></h2>
+					{% for team in division.teams %}
+						<h4 class="text-left">{{team.name}}
+							<span>&nbsp {{team.wins}} - {{team.losses}}</span>
+						</h4>
+					{% endfor %}
+				{% endfor %}
+			</div>
+		{% endfor %}
+		</div>
+	</div>
+</body>
+<script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+</html>

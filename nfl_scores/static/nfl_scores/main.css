@@ -37,7 +37,7 @@ h1 {
 	pointer-events:none;
 }
 
-.game {
+.game, .conference {
 	background-color: #5cb85c;
 	border: 1px solid;
 }
@@ -110,11 +110,21 @@ th, td {
 }
 
 @media (max-width: 767px) {
-	.game {
+	.game, .conference {
 		margin-left: 8.333333333334%;
 	}
 
-	.game:not(:first-child) {
+	.game:not(:first-child), .conference:not(:first-child) {
 		margin-top: 20px;
+	}
+}
+
+@media (min-width: 768px) {
+	.conference:nth-child(1) {
+		margin-left: 6.25%;
+	}
+
+	.conference:not(:nth-child(1)) {
+		margin-left: 4.16666666666667%;
 	}
 }
