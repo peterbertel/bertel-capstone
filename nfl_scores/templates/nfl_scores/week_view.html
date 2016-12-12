@@ -52,7 +52,7 @@
 			<div class="col-md-3 col-sm-5 col-xs-10 game">
 				<div class="game-basic">
 					<h4 class="text-left">{{game.away_team.long_name}}
-						<span class="record"> {{game.away_team.wins}}-{{game.away_team.losses}}</span>
+						<!-- <span class="record"> {{game.away_team.wins}}-{{game.away_team.losses}}</span> -->
 						{% if game.away_score >= game.home_score %}
 							<span class="winning-score">{{game.away_score}}</span>
 						{% else %}
@@ -60,7 +60,7 @@
 						{% endif %}
 					</h4>
 					<h4 class="text-left">{{game.home_team.long_name}}
-						<span class="record"> {{game.home_team.wins}}-{{game.home_team.losses}}</span>
+						<!-- <span class="record"> {{game.home_team.wins}}-{{game.home_team.losses}}</span> -->
 						{% if game.home_score >= game.away_score %}
 							<span class="winning-score">{{game.home_score}}</span>
 						{% else %}
@@ -71,10 +71,10 @@
 				<div class="game-quarters">
 					<div class="team-game-data">
 						<h4 class="text-left">{{game.away_team.long_name}}
-							<span class="record"> {{game.away_team.wins}}-{{game.away_team.losses}}</span>
+							<!-- <span class="record"> {{game.away_team.wins}}-{{game.away_team.losses}}</span> -->
 						</h4>
 						<h4 class="text-left">{{game.home_team.long_name}}
-							<span class="record"> {{game.home_team.wins}}-{{game.home_team.losses}}</span>
+							<!-- <span class="record"> {{game.home_team.wins}}-{{game.home_team.losses}}</span> -->
 						</h4>
 					</div>
 					<table class="quarter-points">
