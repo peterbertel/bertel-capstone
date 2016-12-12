@@ -76,3 +76,39 @@ def load_teams(request):
 
 def update_records(request):
 	return HttpResponse("Updated the teams's records")
+
+def standings(request):
+	import httplib
+	import json
+	conn = httplib.HTTPSConnection("api.sportradar.us")
+	conn.request("GET", "/nfl-ot1/seasontd/2016/standings.json?api_key=mk5mjt48drputswsxqct2uac")
+	res = conn.getresponse()
+	data = res.read()
+	data = data.decode('utf-8')
+	# import pdb; pdb.set_trace()
+	data = json.loads(data)
+	# x['conferences'][0]['divisions'][0]['name']
+	# AFC East
+	return_string = ""
+	# only do the following if it has not been stored in cache
+
+	for conference in data['conferences']:
+		return_string = return_string + "<br/><br/>" + conference['name'] + "<br/><br/>"
+		for division in conference['divisions']:
+			return_string = return_string + "<br/><br/>" + division['name'] + "<br/><br/>"
+			for team in division['teams']:
+				return_string = return_string + team['name'] + " " + str(team['wins']) + "-" + str(team['losses']) + "<br/>"
+
+	return HttpResponse("Standings page: <br/>" + return_string)
+
+# Using the SportRadar API
+# import http.client
+
+# conn = http.client.HTTPSConnection("api.sportradar.us")
+
+# conn.request("GET", "/nfl-ot1/games/b7aeb58f-7987-4202-bc41-3ad9a5b83fa4/pbp.xml?api_key={mk5mjt48drputswsxqct2uac}")
+
+# res = conn.getresponse()
+# data = res.read()
+
+# print(data.decode("utf-8"))

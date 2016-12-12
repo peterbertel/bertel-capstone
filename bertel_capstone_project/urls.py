@@ -23,4 +23,5 @@ urlpatterns = [
     url(r'^load_games/$', views.load_games, name="load_games"),
     url(r'^load_teams/$', views.load_teams, name="load_teams"),
     url(r'^update_records/$', views.update_records, name="update_records"),
+    url(r'^standings/$', views.standings, name="standings"),
 ]
