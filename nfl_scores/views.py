@@ -12,11 +12,19 @@ import httplib
 import json
 
 @cache_page(60 * 5)
-def week_view(request):
-	w = int(request.GET.get('w', 1))
+def week_view(request, week_id):
+	# w = int(request.GET.get('w', 1))
+	t = str(request.GET.get('t', 'NONE'))
+	w = int(week_id)
+	if t != 'NONE':
+		return HttpResponse("The team entered in was the: " + t)
 
 	teams = Team.objects.all()
 	games = Game.objects.filter(week=w)
+
+	# ch = Team.objects.filter(long_name__contains="Char")
+	# games = Game.objects.filter(week=w, home_team="ch")
+
 	future_games = []
 
 	if len(games) == 0:
