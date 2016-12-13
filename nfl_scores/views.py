@@ -64,39 +64,35 @@ def get_future_games(week, team=''):
 
 # This method gets NFL game data for a particular week from the nflgame module and loads
 # this data into the SQL database
-def load_games(request):
+def load_weekly_games(request):
 	n = 0
 	w = int(request.GET.get('w', 1))
-	games = nflgame.games(2016, week=w)
-	if len(games) == 0:
-		return HttpResponse('This week has not happened yet, get the data some other way')
+	if len(Game.objects.filter(week=w)) == 0:
+		games = nflgame.games(2016, week=w)
+		if len(games) == 0:
+			return HttpResponse('This week has not happened yet, get the data some other way')
+		for game in games:
 
-	for game in games:
+			home_name = str(game.home)
+			away_name = str(game.away)
 
-		home_name = str(game.home)
-		away_name = str(game.away)
+			# Small hack in case the Jacksonville Jaguars games are inputted
+			# with 'JAX' and not 'JAC'
+			if str(game.home) == 'JAX':
+				home_name = 'JAC'
+			elif str(game.away) == 'JAX':
+				away_name = 'JAC'
 
-		# Small hack in case the Jacksonville Jaguars games are inputted
-		# with 'JAX' and not 'JAC'
-		if str(game.home) == 'JAX':
-			home_name = 'JAC'
-		elif str(game.away) == 'JAX':
-			away_name = 'JAC'
+			home_team = Team.objects.filter(short_name=home_name)[0]
+			away_team = Team.objects.filter(short_name=away_name)[0]
 
-		home_team = Team.objects.filter(short_name=home_name)[0]
-		away_team = Team.objects.filter(short_name=away_name)[0]
+			g = Game(home_team=home_team, away_team=away_team, week=w, home_score=game.score_home, away_score=game.score_away, \
+				home_points_q1=game.score_home_q1, home_points_q2=game.score_home_q2, home_points_q3=game.score_home_q3, \
+				home_points_q4=game.score_home_q4, away_points_q1=game.score_away_q1, away_points_q2=game.score_away_q2, \
+				away_points_q3=game.score_away_q3, away_points_q4=game.score_away_q4)
 
-		# If the game is already in the database, don't add it again
-		if len(Game.objects.filter(home_team=home_team, away_team=away_team, week=w)) > 0:
-			continue
-
-		g = Game(home_team=home_team, away_team=away_team, week=w, home_score=game.score_home, away_score=game.score_away, \
-			home_points_q1=game.score_home_q1, home_points_q2=game.score_home_q2, home_points_q3=game.score_home_q3, \
-			home_points_q4=game.score_home_q4, away_points_q1=game.score_away_q1, away_points_q2=game.score_away_q2, \
-			away_points_q3=game.score_away_q3, away_points_q4=game.score_away_q4)
-
-		g.save()
-		n += 1
+			g.save()
+			n += 1
 
 	return HttpResponse('Loaded %d games' % n)
 
@@ -146,6 +142,41 @@ def get_teams(request):
 	returnTeams = [{'name': team.long_name} for team in teams]
 
 	return JsonResponse({'teams': returnTeams})
+
+def load_all_games(request):
+	n = 0
+	for w in range(16):
+		games = nflgame.games(2016, week=w+1)
+		if len(games) == 0:
+			break
+		for game in games:
+
+			home_name = str(game.home)
+			away_name = str(game.away)
+
+			# Small hack in case the Jacksonville Jaguars games are inputted
+			# with 'JAX' and not 'JAC'
+			if str(game.home) == 'JAX':
+				home_name = 'JAC'
+			elif str(game.away) == 'JAX':
+				away_name = 'JAC'
+
+			home_team = Team.objects.filter(short_name=home_name)[0]
+			away_team = Team.objects.filter(short_name=away_name)[0]
+
+			g = Game(home_team=home_team, away_team=away_team, week=w+1, home_score=game.score_home, away_score=game.score_away, \
+				home_points_q1=game.score_home_q1, home_points_q2=game.score_home_q2, home_points_q3=game.score_home_q3, \
+				home_points_q4=game.score_home_q4, away_points_q1=game.score_away_q1, away_points_q2=game.score_away_q2, \
+				away_points_q3=game.score_away_q3, away_points_q4=game.score_away_q4)
+
+			g.save()
+			n += 1
+
+	return HttpResponse('Loaded %d games' % n)
+
+
+
+
 
 # SportRadar API Key
 # api_key=mk5mjt48drputswsxqct2uac
