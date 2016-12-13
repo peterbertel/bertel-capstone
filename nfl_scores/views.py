@@ -14,64 +14,56 @@ import json
 
 @cache_page(60 * 5)
 def week_view(request, week_id):
-	# w = int(request.GET.get('w', 1))
 	t = str(request.GET.get('t', 'NONE'))
 	w = int(week_id)
-	if t != 'NONE':
-		return HttpResponse("The team entered in was the: " + t)
-
-	teams = Team.objects.all()
-	games = Game.objects.filter(week=w)
-
-	# ch = Team.objects.filter(long_name__contains="Char")
-	# games = Game.objects.filter(week=w, home_team="ch")
-
 	future_games = []
 
-	if len(games) == 0:
-		# create a bunch of fake games here, getting them from cache or the sportradar api
-		# think about how you want to change the week_view template for the future games
-		# 	need a way to show the records instead of the final score. Also, the games should
-		#	not be clickable
-		conn = httplib.HTTPSConnection("api.sportradar.us")
-
-		conn.request("GET", "/nfl-ot1/games/2016/reg/schedule.json?api_key=mk5mjt48drputswsxqct2uac")
-
-		res = conn.getresponse()
-		data = res.read()
-		data = data.decode("utf-8")
-		data = json.loads(data)
-		# data['weeks'][w-1]['games'][0]['away']['name']
-		future_games = data['weeks'][w-1]['games']
-		# return HttpResponse('This week has not happened yet, that sucks' + str(future_games))
+	if t != 'NONE':
+		team = Team.objects.all().filter(long_name=t)[0]
+		game = Game.objects.filter(week=w).filter(home_team=team)
+		if len(game) == 0:
+			game = Game.objects.filter(week=w).filter(away_team=team)
+			if len(game) == 0:
+				future_games = get_future_games(w, team.long_name)
+				if len(future_games) == 0:
+					return HttpResponse("This team is on bye this week")
+		games = game
+	else:
+		games = Game.objects.filter(week=w)
+		if len(games) == 0:
+			future_games = get_future_games(w)
 
 	context = {'games': games, 'week': w, 'future_games': future_games}
 
 	return render(request, 'nfl_scores/week_view.html', context)
 
+def get_future_games(week, team=''):
+	conn = httplib.HTTPSConnection("api.sportradar.us")
+	conn.request("GET", "/nfl-ot1/games/2016/reg/schedule.json?api_key=mk5mjt48drputswsxqct2uac")
+	res = conn.getresponse()
+	data = res.read()
+	data = data.decode("utf-8")
+	data = json.loads(data)
+	future_games = data['weeks'][week-1]['games']
+	if len(team) != 0:
+		for game in future_games:
+			if (team in game['home']['name']) or (team in game['away']['name']):
+				future_game = []
+				future_game.append(game)
+				return future_game
+		# return an empty array if the team does not play in
+		#   the specified future week
+		return []
+	else:
+		return future_games
+
+# This method gets NFL game data for a particular week from the nflgame module and loads
+# this data into the SQL database
 def load_games(request):
-	# check if there are games for the given weeks
-		#basically, see if there is any updated nfl game data you need to load into your db
-	# use the nflgame module to load in the games you don't have
-	# if it is a week that has not happened yet, populate the data with an external api
-
-	# How do I check if a game already exists in the db?
-	# Also, how do I update a game in the database? Like the chiefs and raiders game
-
-
 	n = 0
 	w = int(request.GET.get('w', 1))
 	games = nflgame.games(2016, week=w)
 	if len(games) == 0:
-		# conn = httplib.HTTPSConnection("api.sportradar.us")
-
-		# conn.request("GET", "/nfl-ot1/games/2016/reg/schedule.json?api_key=mk5mjt48drputswsxqct2uac")
-
-		# res = conn.getresponse()
-		# data = res.read()
-		# data = data.decode("utf-8")
-		# data = json.loads(data)
-		# import pdb; pdb.set_trace()
 		return HttpResponse('This week has not happened yet, get the data some other way')
 
 	for game in games:
