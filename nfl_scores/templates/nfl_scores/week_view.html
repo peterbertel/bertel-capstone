@@ -47,8 +47,10 @@
 			</a>
 		{% endif %}
 	</div>
-	<form class="team-search">
-		<input type="text" name="team" placeholder="Search for a team">
+	<form id="search-team" class="team-search">
+		<input id="search-query" type="text" list="json-datalist" name="team" placeholder="Search for a team">
+		<datalist id="json-datalist"></datalist>
+		<input type="submit" value="Search">
 	</form>
 	<div class="games container-fluid">
 		<div class="row text-center">
@@ -57,7 +59,6 @@
 				<div class="col-md-3 col-sm-5 col-xs-10 game">
 					<div class="game-basic">
 						<h4 class="text-left">{{game.away_team.long_name}}
-							<!-- <span class="record"> {{game.away_team.wins}}-{{game.away_team.losses}}</span> -->
 							{% if game.away_score >= game.home_score %}
 								<span class="winning-score">{{game.away_score}}</span>
 							{% else %}
@@ -65,7 +66,6 @@
 							{% endif %}
 						</h4>
 						<h4 class="text-left">{{game.home_team.long_name}}
-							<!-- <span class="record"> {{game.home_team.wins}}-{{game.home_team.losses}}</span> -->
 							{% if game.home_score >= game.away_score %}
 								<span class="winning-score">{{game.home_score}}</span>
 							{% else %}
@@ -76,20 +76,11 @@
 					<div class="game-quarters">
 						<div class="team-game-data">
 							<h4 class="text-left">{{game.away_team.long_name}}
-								<!-- <span class="record"> {{game.away_team.wins}}-{{game.away_team.losses}}</span> -->
 							</h4>
 							<h4 class="text-left">{{game.home_team.long_name}}
-								<!-- <span class="record"> {{game.home_team.wins}}-{{game.home_team.losses}}</span> -->
 							</h4>
 						</div>
 						<table class="quarter-points">
-							<!-- <tr>
-								<th>1</th>
-								<th>2</th>
-								<th>3</th>
-								<th>4</th>
-								<th>F</th>
-							</tr> -->
 							<tr class="top-table-row">
 								<td>{{game.away_points_q1}}</td>
 								<td>{{game.away_points_q2}}</td>
@@ -150,5 +141,42 @@
 	  			$(this).find('input').prop('checked', false);
   			}
   		});
+
+		var dataList = document.getElementById('json-datalist');
+		var input = document.getElementById('search-query');
+		var teamSet = new Set();
+		$("#search-team").on('input',function(e){
+  			var searchString = $("#search-query").val();
+
+			// Referenced the following link to create the ajax call:
+			//    https://simpleisbetterthancomplex.com/tutorial/2016/08/29/how-to-work-with-ajax-request-with-django.html
+			// Referenced the following link to create the dropdown form:
+			//    http://blog.teamtreehouse.com/creating-autocomplete-dropdowns-datalist-element
+			$.ajax({
+				url: 'http://localhost:8000/get_teams',
+				type: 'get',
+				dataType: 'json',
+				data: {'searchString': searchString},
+				success: function(data) {
+					teams = data.teams;
+					for (var i = 0; i < teams.length; i++) {
+						teamName = teams[i].name;
+						if (!teamSet.has(teamName)) {
+							teamSet.add(teamName);
+							var option = document.createElement('option');
+							option.value = teamName;
+							dataList.appendChild(option);
+						}
+						else {
+							continue;
+						}
+					}
+					input.placeholder = "Search for a team";
+				},
+				failure: function(data) {
+					alert('Error, try again');
+				}
+			});
+		});
   	</script>
 </html>

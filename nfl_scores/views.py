@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from django.http import JsonResponse
 
 # per-view caching found from
 #	 https://docs.djangoproject.com/en/1.10/topics/cache/
@@ -73,9 +74,6 @@ def load_games(request):
 		# import pdb; pdb.set_trace()
 		return HttpResponse('This week has not happened yet, get the data some other way')
 
-		# here, enter the debugger and see if you can get games for the week,
-		# show the teams records on the right instead of the final score
-
 	for game in games:
 
 		home_name = str(game.home)
@@ -130,10 +128,7 @@ def standings(request):
 	data = res.read()
 	data = data.decode('utf-8')
 	data = json.loads(data)
-	# x['conferences'][0]['divisions'][0]['name']
-	# AFC East
 	return_string = ""
-	# only do the following if it has not been stored in cache
 
 	for conference in data['conferences']:
 		return_string = return_string + "<br/><br/>" + conference['name'] + "<br/><br/>"
@@ -144,7 +139,16 @@ def standings(request):
 
 	context = {'data': data}
 	return render(request, 'nfl_scores/standings.html', context)
-	# return HttpResponse("Standings page: <br/>" + return_string)
+
+def get_teams(request):
+	searchString = request.GET.get('searchString', None)
+
+	# get the teams that match the search string
+	teams = Team.objects.all().filter(long_name__contains=searchString)
+	# need to convert teams to json
+	returnTeams = [{'name': team.long_name} for team in teams]
+
+	return JsonResponse({'teams': returnTeams})
 
 # SportRadar API Key
 # api_key=mk5mjt48drputswsxqct2uac

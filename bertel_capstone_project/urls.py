@@ -24,4 +24,5 @@ urlpatterns = [
     url(r'^load_teams/$', views.load_teams, name="load_teams"),
     url(r'^update_records/$', views.update_records, name="update_records"),
     url(r'^standings/$', views.standings, name="standings"),
+    url(r'^get_teams/$', views.get_teams, name="get_teams"),
 ]
