@@ -51,6 +51,10 @@
 		<input id="search-query" type="text" list="json-datalist" name="t" placeholder="Search for a team">
 		<datalist id="json-datalist"></datalist>
 		<input id="submit-team" type="submit" value="Search" disabled="disabled">
+		{% if team != 'NONE' %}
+			<a href={% url 'week' week %}>Reset</a>
+		{% endif %}
+
 	</form>
 	<div class="games container-fluid">
 		<div class="row text-center">

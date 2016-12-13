@@ -38,7 +38,7 @@ def week_view(request, week_id):
 		if len(games) == 0:
 			future_games = get_future_games(w)
 
-	context = {'games': games, 'week': w, 'future_games': future_games}
+	context = {'games': games, 'week': w, 'team':t, 'future_games': future_games}
 
 	return render(request, 'nfl_scores/week_view.html', context)
 
