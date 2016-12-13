@@ -50,7 +50,7 @@
 	<form id="search-team" class="team-search">
 		<input id="search-query" type="text" list="json-datalist" name="t" placeholder="Search for a team">
 		<datalist id="json-datalist"></datalist>
-		<input type="submit" value="Search">
+		<input id="submit-team" type="submit" value="Search" disabled="disabled">
 	</form>
 	<div class="games container-fluid">
 		<div class="row text-center">
@@ -126,6 +126,7 @@
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
   	<script>
+		$("#search-query").val("");
   		$(".game").click( function() {
   			console.log("another time");
   			// if the checkbox is unchecked then
@@ -161,6 +162,9 @@
 					teams = data.teams;
 					for (var i = 0; i < teams.length; i++) {
 						teamName = teams[i].name;
+						if (searchString == teamName) {
+							$("#submit-team").removeAttr('disabled')
+						}
 						if (!teamSet.has(teamName)) {
 							teamSet.add(teamName);
 							var option = document.createElement('option');
