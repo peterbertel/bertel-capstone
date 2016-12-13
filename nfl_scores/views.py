@@ -24,9 +24,14 @@ def week_view(request, week_id):
 		if len(game) == 0:
 			game = Game.objects.filter(week=w).filter(away_team=team)
 			if len(game) == 0:
-				future_games = get_future_games(w, team.long_name)
-				if len(future_games) == 0:
-					return HttpResponse("This team is on bye this week")
+				# either it is (1) a future week or (2) a past week and the team is on bye
+				games = Game.objects.filter(week=w)
+				if len(games) == 0:
+					future_games = get_future_games(w, team.long_name)
+					if len(future_games) == 0:
+						return HttpResponse("The " + team.long_name + " are on bye this week")
+				else:
+					return HttpResponse("The " + team.long_name + " are on bye this week")
 		games = game
 	else:
 		games = Game.objects.filter(week=w)
