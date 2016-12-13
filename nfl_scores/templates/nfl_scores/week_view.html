@@ -165,6 +165,9 @@
 						if (searchString == teamName) {
 							$("#submit-team").removeAttr('disabled')
 						}
+						else {
+							$("#submit-team").attr('disabled', 'disabled');
+						}
 						if (!teamSet.has(teamName)) {
 							teamSet.add(teamName);
 							var option = document.createElement('option');
