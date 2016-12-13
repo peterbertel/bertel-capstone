@@ -2,6 +2,10 @@ h1 {
 	margin-bottom: 20px;
 }
 
+h4 {
+	font-weight: 400;
+}
+
 .week-nav {
 	display: -webkit-flex; /* Webkit works for Safari */
 	display: flex;
@@ -54,14 +58,12 @@ h1 {
 	font-size: 11px;
 }
 
-.winning-score {
+.score {
 	float: right;
-	font-weight: 900;
 }
 
-.losing-score {
-	float: right;
-	font-weight: 400;
+.winner {
+	font-weight: 900;
 }
 
 .game-quarters {
