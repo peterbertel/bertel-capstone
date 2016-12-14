@@ -7,8 +7,6 @@ import uuid
 class Team(models.Model):
 	short_name = models.CharField(max_length=200, unique=True)
 	long_name = models.CharField(max_length=200, unique=True)
-	wins = models.IntegerField(default=0)
-	losses = models.IntegerField(default=0)
 
 	def __str__(self):
 		return 'The %s have %s wins and %s losses' % (self.long_name, self.wins, self.losses)
