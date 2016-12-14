@@ -29,9 +29,12 @@ def week_view(request, week_id):
 				if len(games) == 0:
 					future_games = get_future_games(w, team.long_name)
 					if len(future_games) == 0:
-						return HttpResponse("The " + team.long_name + " are on bye this week")
+						context = {'games': games, 'week': w, 'team':t, 'future_games': future_games}
+						return render(request, 'nfl_scores/week_view.html', context)
+						# return HttpResponse("The " + team.long_name + " are on bye this week")
 				else:
-					return HttpResponse("The " + team.long_name + " are on bye this week")
+					context = {'games': game, 'week': w, 'team':t, 'future_games': future_games}
+					return render(request, 'nfl_scores/week_view.html', context)
 		games = game
 	else:
 		games = Game.objects.filter(week=w)

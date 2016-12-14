@@ -129,6 +129,9 @@
 				{% endfor %}
 			{% endif %}
 		</div>
+		{% if games|length == 0 and future_games|length == 0 %}
+			<h4 class="text-center">The {{team}} are on bye this week.</h4>
+		{% endif %}
 	</div>
 </body>
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
