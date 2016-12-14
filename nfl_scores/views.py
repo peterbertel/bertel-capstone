@@ -31,7 +31,6 @@ def week_view(request, week_id):
 					if len(future_games) == 0:
 						context = {'games': games, 'week': w, 'team':t, 'future_games': future_games}
 						return render(request, 'nfl_scores/week_view.html', context)
-						# return HttpResponse("The " + team.long_name + " are on bye this week")
 				else:
 					context = {'games': game, 'week': w, 'team':t, 'future_games': future_games}
 					return render(request, 'nfl_scores/week_view.html', context)
@@ -112,9 +111,6 @@ def load_teams(request):
 		t.save()
 		n += 1
 	return HttpResponse('Loaded %d teams:' % n)
-
-def update_records(request):
-	return HttpResponse("Updated the teams's records")
 
 @cache_page(60 * 5)
 def standings(request):
