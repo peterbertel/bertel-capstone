@@ -40,18 +40,39 @@ h4 {
 }
 
 .blank-button {
-	color: white;
+	color: #C8E6C9;
+	background-color: #C8E6C9;
 	border: none;
 	pointer-events:none;
+	box-shadow: none;
+}
+
+.blank-button h4 {
+	color: #C8E6C9;
 }
 
 .game, .conference, .future-game {
-	background-color: #5cb85c;
-	border: 1px solid;
+	background-color: #4CAF50;
+	box-shadow: 0 2px 5px 0 rgba(0,0,0,.16), 0 2px 10px 0 rgba(0,0,0,.12);
+}
+
+#search-query {
+	width: 15%;
 }
 
 .game input {
 	display: none;
+}
+
+.dropdown-item {
+	font-size: larger;
+	width: 100%;
+    padding: 3px 1.5rem;
+    clear: both;
+    /*color: #373a3c;*/
+    text-align: inherit;
+    background: 0 0;
+    border: 0;
 }
 
 .record {
@@ -66,8 +87,13 @@ h4 {
 	font-weight: 900;
 }
 
+.game-basic {
+	margin-top: .5rem;
+}
+
 .game-quarters {
 	display: none;
+	margin-top: .5rem;
 }
 
 .team-game-data {

@@ -4,44 +4,47 @@
 	<title>NFL Week {{week}}</title>
 	{% load static %}
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.2.0/css/mdb.min.css">
+	<link rel="stylesheet" id="compiled.css-css" href="http://mdbootstrap.com/wp-content/themes/mdbootstrap4/css/compiled.min.css?ver=4.7" type="text/css" media="all">
 	<link rel="stylesheet" type="text/css" href="{% static 'nfl_scores/main.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'nfl_scores/palette.css' %}">
 </head>
-<body>
-	<nav class="navbar navbar-default text-center">
-		<h1>NFL Game Scores</h1>
-		<a href="/standings"><h4 class="text-center">Standings</h4></a>
+<body class="light-primary-color">
+	<nav class="navbar text-center">
+		<h1 class="text-primary-color">NFL Game Scores</h1>
+		<a href="/standings"><h4 class="text-center text-primary-color">Standings</h4></a>
 	</nav>
 	<div class="week-nav text-center container">
 		{% if week == 1 %}
-			<div class="previous-week btn btn-default blank-button">
+			<div class="previous-week btn blank-button">
 				<h4><span>&lt;</span>{{week|add:"-1"}}</h4>
 			</div>
 		{% else %}
 			<a href={% url 'week' week|add:"-1" %}>
-				<div class="previous-week btn btn-default">
+				<div class="previous-week btn dark-primary-color">
 					<h4><span>&lt;</span>{{week|add:"-1"}}</h4>
 				</div>
 			</a>
 		{% endif %}
-		<div class="current-week dropdown">
-			<button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-				<h4>Week {{week}} <span class="caret"></span></h4>
+		<div class="current-week btn-group">
+			<button class="btn btn-primary dropdown-toggle accent-color" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				<h4>Week {{week}}</h4>
 		  	</button>
-		  	<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+		  	<div class="dropdown-menu">
 		  		<!-- Hack to show all 17 weeks, found from
 		  		http://stackoverflow.com/questions/1107737/numeric-for-loop-in-django-templates-->
-			    {% for i in "aaaaaaaaaaaaaaaaa" %}
-					<li><a href={% url 'week' forloop.counter %}>{{forloop.counter}}</a></li>
+	  			{% for i in "aaaaaaaaaaaaaaaaa" %}
+	  				<a class="dropdown-item" href={% url 'week' forloop.counter %}>{{forloop.counter}}</a>
 				{% endfor %}
-			</ul>
+		  	</div>
 		</div>
 		{% if week == 17 %}
-			<div class="next-week btn btn-default blank-button">
+			<div class="next-week btn blank-button">
 				<h4>{{week|add:"1"}}<span>&gt;</span></h4>
 			</div>
 		{% else %}
 			<a href={% url 'week' week|add:"1" %}>
-				<div class="next-week btn btn-default">
+				<div class="next-week btn dark-primary-color">
 					<h4>{{week|add:"1"}}<span>&gt;</span></h4>
 				</div>
 			</a>
@@ -60,32 +63,32 @@
 		<div class="row text-center">
 			{% if future_games|length == 0 %}
 				{% for game in games %}
-				<div class="col-md-3 col-sm-5 col-xs-10 game">
-					<div class="game-basic">
+				<div class="col-md-3 col-sm-5 col-xs-10 game dark-primary-color">
+					<div class="game-basic text-primary-color">
 						{% if game.away_score >= game.home_score %}
-							<h4 class="text-left winner">{{game.away_team.long_name}}
+							<h5 class="text-left winner">{{game.away_team.long_name}}
 								<span class="score">{{game.away_score}}</span>
-							</h4>
-							<h4 class="text-left">{{game.home_team.long_name}}
+							</h5>
+							<h5 class="text-left">{{game.home_team.long_name}}
 								<span class="score">{{game.home_score}}</span>
-							</h4>
+							</h5>
 						{% else %}
-							<h4 class="text-left">{{game.away_team.long_name}}
+							<h5 class="text-left">{{game.away_team.long_name}}
 								<span class="score">{{game.away_score}}</span>
-							</h4>
-							<h4 class="text-left winner">{{game.home_team.long_name}}
+							</h5>
+							<h5 class="text-left winner">{{game.home_team.long_name}}
 								<span class="score">{{game.home_score}}</span>
-							</h4>
+							</h5>
 						{% endif %}
 					</div>
-					<div class="game-quarters">
+					<div class="game-quarters text-primary-color">
 						<div class="team-game-data">
 							{% if game.away_score >= game.home_score %}
-								<h4 class="text-left winner">{{game.away_team.long_name}}</h4>
-								<h4 class="text-left">{{game.home_team.long_name}}</h4>
+								<h5 class="text-left winner">{{game.away_team.long_name}}</h5>
+								<h5 class="text-left">{{game.home_team.long_name}}</h5>
 							{% else %}
-								<h4 class="text-left">{{game.away_team.long_name}}</h4>
-								<h4 class="text-left winner">{{game.home_team.long_name}}</h4>
+								<h5 class="text-left">{{game.away_team.long_name}}</h5>
+								<h5 class="text-left winner">{{game.home_team.long_name}}</h5>
 							{% endif %}
 						</div>
 						<table class="quarter-points">
@@ -136,6 +139,7 @@
 </body>
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.2.0/js/mdb.min.js"></script>
   	<script>
 		$("#search-query").val("");
   		$(".game").click( function() {

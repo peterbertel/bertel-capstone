@@ -4,18 +4,21 @@
 	<title>NFL Standings</title>
 	{% load static %}
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.2.0/css/mdb.min.css">
+	<link rel="stylesheet" id="compiled.css-css" href="http://mdbootstrap.com/wp-content/themes/mdbootstrap4/css/compiled.min.css?ver=4.7" type="text/css" media="all">
 	<link rel="stylesheet" type="text/css" href="{% static 'nfl_scores/main.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'nfl_scores/palette.css' %}">
 </head>
-<body>
-	<nav class="navbar navbar-default text-center">
-		<h1>NFL Standings</h1>
-		<a href=""><h4 class="text-center" onclick="history.back(-1)">Scores</h4></a>
+<body class="light-primary-color">
+	<nav class="navbar text-center">
+		<h1 class="text-primary-color">NFL Standings</h1>
+		<a href=""><h4 class="text-center text-primary-color" onclick="history.back(-1)">Scores</h4></a>
 	</nav>
 	<div class="container-fluid">
 		<div class="row text-center">
 		{% for conference in data.conferences %}
 			<div class="col-md-3 col-sm-5 col-xs-10 conference">
-				<h1 class="text-center">{{conference.name}}</h1>
+				<h1 class="text-center conference-name">{{conference.name}}</h1>
 				{% for division in conference.divisions %}
 					<h2 class="text-left"><u>{{division.name}}</u></h2>
 					{% for team in division.teams %}
@@ -30,5 +33,5 @@
 	</div>
 </body>
 <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.2.0/js/mdb.min.js"></script>
 </html>
