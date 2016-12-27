@@ -69,14 +69,9 @@ h4 {
 	width: 100%;
     padding: 3px 1.5rem;
     clear: both;
-    /*color: #373a3c;*/
     text-align: inherit;
     background: 0 0;
     border: 0;
-}
-
-.record {
-	font-size: 11px;
 }
 
 .score {
@@ -87,33 +82,29 @@ h4 {
 	font-weight: 900;
 }
 
-.game-basic {
-	margin-top: .5rem;
-}
-
-.game-quarters {
-	display: none;
-	margin-top: .5rem;
-}
-
 .team-game-data {
+	margin-top: .5rem;
 	float: left;
 }
 
 .quarter-points {
 	float: right;
 	font-size: 400;
-	margin-top: 3px;
+	margin-top: 4px;
+}
+
+.quarter-total {
+	color: #388E3C;
 }
 
 .top-table-row {
-	line-height: 33px;
+	line-height: 30px;
 }
 
 th, td {
 	padding-left: 10px;
-	font-size: 18px;
-	font-weight: 400;
+	font-size: 1.25rem;
+	font-weight: 300;
 }
 
 /* Hack to give me correct offset amount. Found from:

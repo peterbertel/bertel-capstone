@@ -64,24 +64,7 @@
 			{% if future_games|length == 0 %}
 				{% for game in games %}
 				<div class="col-md-3 col-sm-5 col-xs-10 game dark-primary-color">
-					<div class="game-basic text-primary-color">
-						{% if game.away_score >= game.home_score %}
-							<h5 class="text-left winner">{{game.away_team.long_name}}
-								<span class="score">{{game.away_score}}</span>
-							</h5>
-							<h5 class="text-left">{{game.home_team.long_name}}
-								<span class="score">{{game.home_score}}</span>
-							</h5>
-						{% else %}
-							<h5 class="text-left">{{game.away_team.long_name}}
-								<span class="score">{{game.away_score}}</span>
-							</h5>
-							<h5 class="text-left winner">{{game.home_team.long_name}}
-								<span class="score">{{game.home_score}}</span>
-							</h5>
-						{% endif %}
-					</div>
-					<div class="game-quarters text-primary-color">
+					<div class="text-primary-color">
 						<div class="team-game-data">
 							{% if game.away_score >= game.home_score %}
 								<h5 class="text-left winner">{{game.away_team.long_name}}</h5>
@@ -92,22 +75,22 @@
 							{% endif %}
 						</div>
 						<table class="quarter-points">
-							<tr class="top-table-row">
-								<td>{{game.away_points_q1}}</td>
-								<td>{{game.away_points_q2}}</td>
-								<td>{{game.away_points_q3}}</td>
-								<td>{{game.away_points_q4}}</td>
+							<tr align="right" class="top-table-row">
+								<td class="quarter-total">{{game.away_points_q1}}</td>
+								<td class="quarter-total">{{game.away_points_q2}}</td>
+								<td class="quarter-total">{{game.away_points_q3}}</td>
+								<td class="quarter-total">{{game.away_points_q4}}</td>
 								{% if game.away_score >= game.home_score %}
 									<td class="winner">{{game.away_score}}</td>
 								{% else %}
 									<td>{{game.away_score}}</td>
 								{% endif %}
 							</tr>
-							<tr>
-								<td>{{game.home_points_q1}}</td>
-								<td>{{game.home_points_q2}}</td>
-								<td>{{game.home_points_q3}}</td>
-								<td>{{game.home_points_q4}}</td>
+							<tr align="right">
+								<td class="quarter-total">{{game.home_points_q1}}</td>
+								<td class="quarter-total">{{game.home_points_q2}}</td>
+								<td class="quarter-total">{{game.home_points_q3}}</td>
+								<td class="quarter-total">{{game.home_points_q4}}</td>
 								{% if game.home_score >= game.away_score %}
 									<td class="winner">{{game.home_score}}</td>
 								{% else %}
@@ -144,16 +127,13 @@
 		$("#search-query").val("");
   		$(".game").click( function() {
   			console.log("another time");
-  			// if the checkbox is unchecked then
+  			// if the checkbox is unchecked then show the quarter-points
   			if (!$(this).find('input').prop("checked")) {
-  				$(this).find(".game-basic").css("display", "None");
-	  			$(this).find(".game-quarters").css("display", "inline");
 	  			$(this).find('input').prop('checked', true);
+	  			$(this).find(".quarter-total").css("color", "#FFFFFF");
   			} 
   			else {
-  				console.log("else statement fired");
-  				$(this).find(".game-basic").css("display", "inline");
-	  			$(this).find(".game-quarters").css("display", "None");
+	  			$(this).find(".quarter-total").css("color", "#388E3C");
 	  			$(this).find('input').prop('checked', false);
   			}
   		});
