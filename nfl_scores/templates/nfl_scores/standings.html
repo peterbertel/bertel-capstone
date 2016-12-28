@@ -17,15 +17,19 @@
 	<div class="container-fluid">
 		<div class="row text-center">
 		{% for conference in data.conferences %}
-			<div class="col-md-3 col-sm-5 col-xs-10 conference">
-				<h1 class="text-center conference-name">{{conference.name}}</h1>
+			<div class="col-md-3 col-sm-5 col-xs-10 conference text-primary-color">
+				<div class="conference-name accent-color">
+					<h1 class="text-center">{{conference.name}}</h1>
+				</div>
 				{% for division in conference.divisions %}
-					<h2 class="text-left"><u>{{division.name}}</u></h2>
-					{% for team in division.teams %}
-						<h4 class="text-left">{{team.name}}
-							<span>&nbsp {{team.wins}} - {{team.losses}}</span>
-						</h4>
-					{% endfor %}
+					<div class="division dark-primary-color">
+						<h2 class="division-name"><u>{{division.name}}</u></h2>
+						{% for team in division.teams %}
+							<h4 class="team-in-division">{{team.name}}
+								<span>&nbsp {{team.wins}} - {{team.losses}}</span>
+							</h4>
+						{% endfor %}
+					</div>
 				{% endfor %}
 			</div>
 		{% endfor %}

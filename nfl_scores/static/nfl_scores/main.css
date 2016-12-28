@@ -51,9 +51,20 @@ h4 {
 	color: #C8E6C9;
 }
 
-.game, .conference, .future-game {
-	background-color: #4CAF50;
+.game, .future-game, .conference-name, .division {
 	box-shadow: 0 2px 5px 0 rgba(0,0,0,.16), 0 2px 10px 0 rgba(0,0,0,.12);
+}
+
+.division-name {
+	padding-top: 0.5rem;
+}
+
+.team-in-division:last-child {
+	padding-bottom: 0.5rem;
+}
+
+.future-game div {
+	margin-top: .5rem;
 }
 
 #search-query {

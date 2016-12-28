@@ -106,10 +106,10 @@
 				{% endfor %}
 			{% else %}
 				{% for game in future_games %}
-					<div class="col-md-3 col-sm-5 col-xs-10 future-game" disabled="true">
-						<div class="game-basic text-center">
-							<h4>{{game.home.name}}</h4>
-							<h4>{{game.away.name}}</h4>
+					<div class="col-md-3 col-sm-5 col-xs-10 future-game dark-primary-color" disabled="true">
+						<div class="text-center text-primary-color">
+							<h5>{{game.home.name}}</h5>
+							<h5>{{game.away.name}}</h5>
 						</div>
 					</div>
 				{% endfor %}
