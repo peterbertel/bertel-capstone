@@ -106,6 +106,7 @@ h4 {
 
 .quarter-total {
 	color: #388E3C;
+	pointer-events:none;
 }
 
 .top-table-row {
@@ -113,7 +114,7 @@ h4 {
 }
 
 th, td {
-	padding-left: 10px;
+	padding-left: 7px;
 	font-size: 1.25rem;
 	font-weight: 300;
 }

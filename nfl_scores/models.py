@@ -9,7 +9,7 @@ class Team(models.Model):
 	long_name = models.CharField(max_length=200, unique=True)
 
 	def __str__(self):
-		return 'The %s have %s wins and %s losses' % (self.long_name, self.wins, self.losses)
+		return '%s - %s' % (self.short_name, self.long_name)
 
 class Game(models.Model):
 	home_team = models.ForeignKey(Team, on_delete=models.CASCADE, related_name="home_team", null=True)

@@ -46,7 +46,7 @@ def week_view(request, week_id):
 
 def get_future_games(week, team=''):
 	conn = httplib.HTTPSConnection("api.sportradar.us")
-	conn.request("GET", "/nfl-ot1/games/2016/reg/schedule.json?api_key=mk5mjt48drputswsxqct2uac")
+	conn.request("GET", "/nfl-ot1/games/2016/reg/schedule.json?api_key=wnvqxfwz8v8ghu49ycapv3ww")
 	res = conn.getresponse()
 	data = res.read()
 	data = data.decode("utf-8")
@@ -115,7 +115,7 @@ def load_teams(request):
 @cache_page(60 * 5)
 def standings(request):
 	conn = httplib.HTTPSConnection("api.sportradar.us")
-	conn.request("GET", "/nfl-ot1/seasontd/2016/standings.json?api_key=mk5mjt48drputswsxqct2uac")
+	conn.request("GET", "/nfl-ot1/seasontd/2016/standings.json?api_key=wnvqxfwz8v8ghu49ycapv3ww")
 	res = conn.getresponse()
 	data = res.read()
 	data = data.decode('utf-8')
@@ -178,5 +178,5 @@ def load_all_games(request):
 
 
 # SportRadar API Key
-# api_key=mk5mjt48drputswsxqct2uac
+# api_key=wnvqxfwz8v8ghu49ycapv3ww
 # consider making this a variable at the top of the file
