@@ -131,9 +131,6 @@ th, td {
 	.game:not(:nth-child(3n+1)), .future-game:not(:nth-child(3n+1)) {
 		margin-left: 4.16666666666667%;
 	}
-	.conference:nth-child(1) {
-		margin-left: 22.75%;
-	}
 }
 
 @media (max-width: 1120px) and (min-width: 991px) {
@@ -180,13 +177,17 @@ th, td {
 		margin-right: 4.16666666666667%;
 	}
 
-	.game:not(:nth-child(1)):not(:nth-child(2)), .conference:not(:first-child), .future-game:not(:first-child) {
+	.game:not(:nth-child(1)):not(:nth-child(2)), .future-game:not(:first-child) {
 		margin-top: 20px;
 	}
 }
 
-@media (min-width: 768px) {
-	.conference:not(:nth-child(1)) {
+@media (min-width: 991px) {
+	.conference:nth-child(1) {
+		margin-left: 22.75%;
+	}
+	.conference:nth-child(2) {
 		margin-left: 4.16666666666667%;
 	}
+
 }
