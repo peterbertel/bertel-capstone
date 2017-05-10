@@ -4,9 +4,27 @@ from django.db import models
 
 import uuid
 
+class Conference(models.Model):
+	conference_name = models.CharField(max_length=200, unique=True)
+
+	def __str__(self):
+		return '%s' % (self.conference_name)
+
+class Division(models.Model):
+	division_name = models.CharField(max_length=200, unique=True)
+	conference = models.ForeignKey(Conference, on_delete=models.CASCADE, related_name="conference", null=True)
+
+	def __str__(self):
+		return '%s - %s' % (self.division_name, self.conference.conference_name)
+
+
 class Team(models.Model):
+	division = models.ForeignKey(Division, on_delete=models.CASCADE, related_name="division", null=True)
 	short_name = models.CharField(max_length=200, unique=True)
 	long_name = models.CharField(max_length=200, unique=True)
+	wins = models.IntegerField(default=0)
+	losses = models.IntegerField(default=0)
+	ties = models.IntegerField(default=0)
 
 	def __str__(self):
 		return '%s - %s' % (self.short_name, self.long_name)

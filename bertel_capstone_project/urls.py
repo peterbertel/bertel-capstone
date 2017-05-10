@@ -25,4 +25,5 @@ urlpatterns = [
     url(r'^standings/$', views.standings, name="standings"),
     url(r'^get_teams/$', views.get_teams, name="get_teams"),
     url(r'^load_all_games/$', views.load_all_games, name="load_all_games"),
+    url(r'^load_sportradar_data/$', views.load_sportradar_data, name="load_sportradar_data"),
 ]

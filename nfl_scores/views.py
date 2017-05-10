@@ -6,7 +6,7 @@ from django.http import JsonResponse
 #	 https://docs.djangoproject.com/en/1.10/topics/cache/
 from django.views.decorators.cache import cache_page
 
-from .models import Team, Game
+from .models import Conference, Division, Team, Game
 
 import nflgame
 import httplib
@@ -98,20 +98,6 @@ def load_weekly_games(request):
 
 	return HttpResponse('Loaded %d games' % n)
 
-def load_teams(request):
-	n = 0
-	# parses the teams so we can interpret them better
-	for team in nflgame.teams:
-		# This is done to avoid the duplication of the old St. Louis Rams
-		#	and the new Los Angeles Rams in the nflgame database
-		if str(team[0]) == "STL":
-			continue
-
-		t = Team(short_name=str(team[0]), long_name=str(team[2]))
-		t.save()
-		n += 1
-	return HttpResponse('Loaded %d teams:' % n)
-
 @cache_page(60 * 5)
 def standings(request):
 	conn = httplib.HTTPSConnection("api.sportradar.us")
@@ -173,10 +159,34 @@ def load_all_games(request):
 
 	return HttpResponse('Loaded %d games' % n)
 
+def load_sportradar_data(request):
+	'''
+	This view loads in the data for Conferences, Divisions, and Teams in each Division.
+	'''
+	conn = httplib.HTTPSConnection("api.sportradar.us")
+	conn.request("GET", "/nfl-ot1/seasontd/2016/standings.json?api_key=wnvqxfwz8v8ghu49ycapv3ww")
+	res = conn.getresponse()
+	data = res.read()
+	data = data.decode('utf-8')
+	data = json.loads(data)
+	return_string = ""
+
+	for conference in data['conferences']:
+		c = Conference(conference_name=conference['name'])
+		c.save()
+		for division in conference['divisions']:
+			d = Division(division_name=division['name'], conference=c)
+			d.save()
+			for team in division['teams']:
+				team_name = team['name']
+				if "New York" in team_name:
+					team_name = team_name.split()[-1]
+				t = Team(division=d, short_name=team['alias'], long_name=team_name, \
+					wins=team['wins'], losses=team['losses'], ties=team['ties'])
+				t.save()
+
+	return HttpResponse('Loaded sportradar data')
 
 
-
-
-# SportRadar API Key
-# api_key=wnvqxfwz8v8ghu49ycapv3ww
-# consider making this a variable at the top of the file
+# SportRadar API Key:
+# wnvqxfwz8v8ghu49ycapv3ww
