@@ -98,22 +98,26 @@ def load_weekly_games(request):
 
 	return HttpResponse('Loaded %d games' % n)
 
+
 @cache_page(60 * 5)
 def standings(request):
-	conn = httplib.HTTPSConnection("api.sportradar.us")
-	conn.request("GET", "/nfl-ot1/seasontd/2016/standings.json?api_key=wnvqxfwz8v8ghu49ycapv3ww")
-	res = conn.getresponse()
-	data = res.read()
-	data = data.decode('utf-8')
-	data = json.loads(data)
-	return_string = ""
+	data = {}
 
-	for conference in data['conferences']:
-		return_string = return_string + "<br/><br/>" + conference['name'] + "<br/><br/>"
-		for division in conference['divisions']:
-			return_string = return_string + "<br/><br/>" + division['name'] + "<br/><br/>"
-			for team in division['teams']:
-				return_string = return_string + team['name'] + " " + str(team['wins']) + "-" + str(team['losses']) + "<br/>"
+	data['conferences'] = []
+	conferences = Conference.objects.all()
+	conference_count = 0
+	for conference in conferences:
+		c = {'name' : conference.conference_name, 'divisions' : []}
+		data['conferences'].append(c)
+		division_count = 0
+		for division in Division.objects.filter(conference=conference):
+			d = {'name': division.division_name, 'teams': []}
+			data['conferences'][conference_count]['divisions'].append(d)
+			for team in Team.objects.filter(division=division):
+				t = {'name': team.long_name, 'wins': team.wins, 'losses': team.losses, 'ties':team.ties}
+				data['conferences'][conference_count]['divisions'][division_count]['teams'].append(t)
+			division_count += 1
+		conference_count += 1
 
 	context = {'data': data}
 	return render(request, 'nfl_scores/standings.html', context)
@@ -169,7 +173,6 @@ def load_sportradar_data(request):
 	data = res.read()
 	data = data.decode('utf-8')
 	data = json.loads(data)
-	return_string = ""
 
 	for conference in data['conferences']:
 		c = Conference(conference_name=conference['name'])

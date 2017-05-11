@@ -21,7 +21,6 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^week_view/(?P<week_id>[0-9]+)$', views.week_view, name="week"),
     url(r'^load_weekly_games/$', views.load_weekly_games, name="load_weekly_games"),
-    url(r'^load_teams/$', views.load_teams, name="load_teams"),
     url(r'^standings/$', views.standings, name="standings"),
     url(r'^get_teams/$', views.get_teams, name="get_teams"),
     url(r'^load_all_games/$', views.load_all_games, name="load_all_games"),

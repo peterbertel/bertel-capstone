@@ -25,9 +25,15 @@
 					<div class="division dark-primary-color">
 						<h2 class="division-name"><u>{{division.name}}</u></h2>
 						{% for team in division.teams %}
-							<h4 class="team-in-division">{{team.name}}
-								<span>&nbsp {{team.wins}} - {{team.losses}}</span>
-							</h4>
+							{% if team.ties != 0 %}
+								<h4 class="team-in-division">{{team.name}}
+									<span>&nbsp {{team.wins}} - {{team.losses}} - {{team.ties}}</span>
+								</h4>
+							{% else %}
+								<h4 class="team-in-division">{{team.name}}
+									<span>&nbsp {{team.wins}} - {{team.losses}}</span>
+								</h4>
+							{% endif %}
 						{% endfor %}
 					</div>
 				{% endfor %}
