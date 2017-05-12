@@ -190,6 +190,27 @@ def load_sportradar_data(request):
 
 	return HttpResponse('Loaded sportradar data')
 
+def get_quarter_points(request):
+	home_team_name = request.GET.get('home_team', None)
+	away_team_name = request.GET.get('away_team', None)
+	week = request.GET.get('week', None)
+
+	home_team = Team.objects.all().filter(long_name__contains=home_team_name)
+	away_team = Team.objects.all().filter(long_name__contains=away_team_name)
+	game = Game.objects.filter(week=week).filter(home_team=home_team).filter(away_team=away_team)[0]
+	points_per_quarter = {
+		'home_q1': game.home_points_q1,
+		'home_q2': game.home_points_q2,
+		'home_q3': game.home_points_q3,
+		'home_q4': game.home_points_q4,
+		'away_q1': game.away_points_q1,
+		'away_q2': game.away_points_q2,
+		'away_q3': game.away_points_q3,
+		'away_q4': game.away_points_q4
+	}
+
+	return JsonResponse({'points_per_quarter': points_per_quarter})
+
 
 # SportRadar API Key:
 # wnvqxfwz8v8ghu49ycapv3ww

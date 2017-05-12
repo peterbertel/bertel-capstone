@@ -67,19 +67,19 @@
 					<div class="text-primary-color">
 						<div class="team-game-data">
 							{% if game.away_score >= game.home_score %}
-								<h5 class="text-left winner">{{game.away_team.long_name}}</h5>
-								<h5 class="text-left">{{game.home_team.long_name}}</h5>
+								<h5 class="text-left winner away_team">{{game.away_team.long_name}}</h5>
+								<h5 class="text-left home_team">{{game.home_team.long_name}}</h5>
 							{% else %}
-								<h5 class="text-left">{{game.away_team.long_name}}</h5>
-								<h5 class="text-left winner">{{game.home_team.long_name}}</h5>
+								<h5 class="text-left away_team">{{game.away_team.long_name}}</h5>
+								<h5 class="text-left winner home_team">{{game.home_team.long_name}}</h5>
 							{% endif %}
 						</div>
 						<table class="quarter-points">
 							<tr align="right" class="top-table-row">
-								<td class="quarter-total">{{game.away_points_q1}}</td>
-								<td class="quarter-total">{{game.away_points_q2}}</td>
-								<td class="quarter-total">{{game.away_points_q3}}</td>
-								<td class="quarter-total">{{game.away_points_q4}}</td>
+								<td class="quarter-total away_q1"></td>
+								<td class="quarter-total away_q2"></td>
+								<td class="quarter-total away_q3"></td>
+								<td class="quarter-total away_q4"></td>
 								{% if game.away_score >= game.home_score %}
 									<td class="winner">{{game.away_score}}</td>
 								{% else %}
@@ -87,10 +87,10 @@
 								{% endif %}
 							</tr>
 							<tr align="right">
-								<td class="quarter-total">{{game.home_points_q1}}</td>
-								<td class="quarter-total">{{game.home_points_q2}}</td>
-								<td class="quarter-total">{{game.home_points_q3}}</td>
-								<td class="quarter-total">{{game.home_points_q4}}</td>
+								<td class="quarter-total home_q1"></td>
+								<td class="quarter-total home_q2"></td>
+								<td class="quarter-total home_q3"></td>
+								<td class="quarter-total home_q4"></td>
 								{% if game.home_score >= game.away_score %}
 									<td class="winner">{{game.home_score}}</td>
 								{% else %}
@@ -126,14 +126,46 @@
   	<script>
 		$("#search-query").val("");
   		$(".game").click( function() {
+			gameElement = $(this)
   			// if the checkbox is unchecked then show the quarter-points
-  			if (!$(this).find('input').prop("checked")) {
-	  			$(this).find('input').prop('checked', true);
-	  			$(this).find(".quarter-total").css("color", "#FFFFFF");
+			if (!gameElement.find('input').prop("checked")) {
+				gameElement.find('input').prop('checked', true);
+				away_team = gameElement.find('.away_team').text();
+				home_team = gameElement.find('.home_team').text();
+				week = $(".current-week").find("h4").text().split(" ")[1]
+				$.ajax({
+					url: 'http://localhost:8000/get_quarter_points',
+					type: 'get',
+					dataType: 'json',
+					data: {'away_team': away_team, 'home_team': home_team, 'week': week},
+					success: function(data) {
+						console.log("successful getting: ")
+						console.log(data.points_per_quarter)
+						data = data.points_per_quarter
+						gameElement.find('.away_q1').text(data.away_q1)
+						gameElement.find('.away_q2').text(data.away_q2)
+						gameElement.find('.away_q3').text(data.away_q3)
+						gameElement.find('.away_q4').text(data.away_q4)
+						gameElement.find('.home_q1').text(data.home_q1)
+						gameElement.find('.home_q2').text(data.home_q2)
+						gameElement.find('.home_q3').text(data.home_q3)
+						gameElement.find('.home_q4').text(data.home_q4)
+					},
+					failure: function(data) {
+						alert('Error, try again');
+					}
+				});
   			} 
-  			else {
-	  			$(this).find(".quarter-total").css("color", "#388E3C");
-	  			$(this).find('input').prop('checked', false);
+			else {
+				gameElement.find('input').prop('checked', false);
+				gameElement.find('.away_q1').text("")
+				gameElement.find('.away_q2').text("")
+				gameElement.find('.away_q3').text("")
+				gameElement.find('.away_q4').text("")
+				gameElement.find('.home_q1').text("")
+				gameElement.find('.home_q2').text("")
+				gameElement.find('.home_q3').text("")
+				gameElement.find('.home_q4').text("")
   			}
   		});
 
