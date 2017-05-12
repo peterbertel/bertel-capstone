@@ -17,7 +17,7 @@
 	<div class="container-fluid">
 		<div class="row text-center">
 		{% for conference in data.conferences %}
-			<div class="col-xl-3 col-lg-5 col-md-5 col-sm-5 col-xs-10 conference text-primary-color">
+			<div class="col-xl-3 col-lg-3 col-md-5 col-sm-5 col-xs-10 conference text-primary-color">
 				<div class="conference-name accent-color">
 					<h1 class="text-center">{{conference.name}}</h1>
 				</div>
@@ -27,7 +27,7 @@
 						{% for team in division.teams %}
 							{% if team.ties != 0 %}
 								<h4 class="team-in-division">{{team.name}}
-									<span>&nbsp {{team.wins}} - {{team.losses}} - {{team.ties}}</span>
+									<span>&nbsp{{team.wins}} - {{team.losses}} - {{team.ties}}</span>
 								</h4>
 							{% else %}
 								<h4 class="team-in-division">{{team.name}}
