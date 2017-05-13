@@ -134,7 +134,7 @@ def get_teams(request):
 
 def load_all_games(request):
 	n = 0
-	for w in range(16):
+	for w in range(17):
 		games = nflgame.games(2016, week=w+1)
 		if len(games) == 0:
 			break
