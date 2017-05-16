@@ -7,7 +7,7 @@ To run the application, complete the following steps:
 Clone the repository by entering the following in the command line:
 
 `
-git clone https://github.com/peterbertel/bertel-capstone.git
+git clone https://github.com/peterbertel/nfl-scores-app.git
 `
 
 Next, make sure to have python 2 installed. Navigate to the project directory in the command line and run the following to start the local web server:
