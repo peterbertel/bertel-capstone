@@ -26,7 +26,7 @@ SECRET_KEY = ')&-vuxebvlzr9h6o+*mono8q+fxkai-d%nq_$!o#ys-jonw#*@'
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    '.nfl-django-env.irqgfmpwhb.us-west-2.elasticbeanstalk.com/'
+    'nfl-django-env.irqgfmpwhb.us-west-2.elasticbeanstalk.com/'
 ]
 
 
