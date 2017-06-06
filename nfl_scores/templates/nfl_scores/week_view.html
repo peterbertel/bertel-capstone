@@ -132,13 +132,11 @@
 				home_team = gameElement.find('.home_team').text();
 				week = $(".current-week").find("h4").text().split(" ")[1]
 				$.ajax({
-					url: 'http://localhost:8000/get_quarter_points',
+					url: '/get_quarter_points',
 					type: 'get',
 					dataType: 'json',
 					data: {'away_team': away_team, 'home_team': home_team, 'week': week},
 					success: function(data) {
-						console.log("successful getting: ")
-						console.log(data.points_per_quarter)
 						data = data.points_per_quarter
 						gameElement.find('.away_q1').text(data.away_q1)
 						gameElement.find('.away_q2').text(data.away_q2)
@@ -178,7 +176,7 @@
 			// Referenced the following link to create the dropdown form:
 			//    http://blog.teamtreehouse.com/creating-autocomplete-dropdowns-datalist-element
 			$.ajax({
-				url: 'http://localhost:8000/get_teams',
+				url: '/get_teams',
 				type: 'get',
 				dataType: 'json',
 				data: {'searchString': searchString},
