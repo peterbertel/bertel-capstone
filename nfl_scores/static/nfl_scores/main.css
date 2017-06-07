@@ -170,13 +170,14 @@ th, td {
 	}
 }
 
+/*This is the media query that safari doesn't like - and the one that iphones get stuck on*/
 @media (min-width: 576px) and (max-width: 991px) {
 	.game, .conference, .future-game, .team-search {
 		margin-left: 4.16666666666667%;
 		margin-right: 4.16666666666667%;
 	}
 
-	.game:not(:nth-child(1)):not(:nth-child(2)), .future-game:not(:first-child) {
+	.game:not(:nth-child(1)), .game:not(:nth-child(2)), .future-game:not(:first-child) {
 		margin-top: 20px;
 	}
 }
