@@ -6,6 +6,10 @@ h4 {
 	font-weight: 400;
 }
 
+body {
+	margin-bottom: 20px;
+}
+
 .week-nav {
 	display: -webkit-flex; /* Webkit works for Safari */
 	display: flex;
@@ -168,14 +172,10 @@ th, td {
 	.game:not(:first-child), .conference:not(:first-child), .future-game:not(:first-child) {
 		margin-top: 20px;
 	}
-
-	.game:last-child, {
-		margin-bottom: 20px;
-	}
 }
 
 /*This is the media query that safari doesn't like - and the one that iphones get stuck on*/
-@media (min-width: 576px) and (max-width: 991px) {
+@media (min-width: 576px) and (max-width: 990px) {
 	.game, .conference, .future-game, .team-search {
 		margin-left: 4.16666666666667%;
 		margin-right: 4.16666666666667%;
@@ -193,5 +193,4 @@ th, td {
 	.conference:nth-child(2) {
 		margin-left: 4.16666666666667%;
 	}
-
 }
