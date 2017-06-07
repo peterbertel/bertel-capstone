@@ -168,6 +168,10 @@ th, td {
 	.game:not(:first-child), .conference:not(:first-child), .future-game:not(:first-child) {
 		margin-top: 20px;
 	}
+
+	.game:last-child, {
+		margin-bottom: 20px;
+	}
 }
 
 /*This is the media query that safari doesn't like - and the one that iphones get stuck on*/
@@ -177,7 +181,7 @@ th, td {
 		margin-right: 4.16666666666667%;
 	}
 
-	.game:not(:nth-child(1)), .game:not(:nth-child(2)), .future-game:not(:first-child) {
+	.game:nth-child(n+3), .future-game:not(:first-child) {
 		margin-top: 20px;
 	}
 }
