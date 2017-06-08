@@ -8,6 +8,7 @@
 	<link rel="stylesheet" type="text/css" href="{% static 'nfl_scores/mdbootstrap.compiled.min.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'nfl_scores/main.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'nfl_scores/palette.css' %}">
+	<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" type="text/css" />
 </head>
 <body class="light-primary-color">
 	<nav class="navbar text-center">
@@ -121,6 +122,7 @@
 	</div>
 </body>
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
   	<script>
 		$("#search-query").val("");
@@ -167,46 +169,71 @@
   		});
 
 		var dataList = document.getElementById('json-datalist');
-		var input = document.getElementById('search-query');
 		var teamSet = new Set();
-		$("#search-team").on('input',function(e){
-  			var searchString = $("#search-query").val();
 
-			// Referenced the following link to create the ajax call:
-			//    https://simpleisbetterthancomplex.com/tutorial/2016/08/29/how-to-work-with-ajax-request-with-django.html
-			// Referenced the following link to create the dropdown form:
-			//    http://blog.teamtreehouse.com/creating-autocomplete-dropdowns-datalist-element
+		// The following polyfill code came from https://github.com/thgreasi/datalist-polyfill
+		var browserSupportsDatalist = !!('list' in document.createElement('input')) && !!(document.createElement('datalist') && window.HTMLDataListElement);
+
+		// autocomplete code found from https://jqueryui.com/autocomplete/
+		if (!browserSupportsDatalist) {
+			teamList = []
+			$("#search-query").attr('autocomplete','on');
 			$.ajax({
 				url: '/get_teams',
 				type: 'get',
 				dataType: 'json',
-				data: {'searchString': searchString},
+				data: {'searchString': ""},
 				success: function(data) {
 					teams = data.teams;
 					for (var i = 0; i < teams.length; i++) {
-						teamName = teams[i].name;
-						if (searchString == teamName) {
-							$("#submit-team").removeAttr('disabled')
-						}
-						else {
-							$("#submit-team").attr('disabled', 'disabled');
-						}
-						if (!teamSet.has(teamName)) {
-							teamSet.add(teamName);
-							var option = document.createElement('option');
-							option.value = teamName;
-							dataList.appendChild(option);
-						}
-						else {
-							continue;
-						}
+						teamList.push(teams[i].name);
 					}
-					input.placeholder = "Search for a team";
+					$("#search-query").autocomplete({ source: teamList });
 				},
 				failure: function(data) {
 					alert('Error, try again');
 				}
 			});
+		}
+		$("#search-team").on('input',function(e){
+			if (browserSupportsDatalist) {
+				var searchString = $("#search-query").val();
+
+				// Referenced the following link to create the ajax call:
+				//    https://simpleisbetterthancomplex.com/tutorial/2016/08/29/how-to-work-with-ajax-request-with-django.html
+				// Referenced the following link to create the dropdown form:
+				//    http://blog.teamtreehouse.com/creating-autocomplete-dropdowns-datalist-element
+				$.ajax({
+					url: '/get_teams',
+					type: 'get',
+					dataType: 'json',
+					data: {'searchString': searchString},
+					success: function(data) {
+						teams = data.teams;
+						for (var i = 0; i < teams.length; i++) {
+							teamName = teams[i].name;
+							if (searchString == teamName) {
+								$("#submit-team").removeAttr('disabled')
+							}
+							else {
+								$("#submit-team").attr('disabled', 'disabled');
+							}
+							if (!teamSet.has(teamName)) {
+								teamSet.add(teamName);
+								var option = document.createElement('option');
+								option.value = teamName;
+								dataList.appendChild(option);
+							}
+							else {
+								continue;
+							}
+						}
+					},
+					failure: function(data) {
+						alert('Error, try again');
+					}
+				});
+			}
 		});
   	</script>
 </html>
