@@ -178,7 +178,7 @@ th, td {
 @media (min-width: 576px) and (max-width: 990px) {
 	.game, .conference, .future-game, .team-search {
 		margin-left: 4.16666666666667%;
-		margin-right: 4.16666666666667%;
+		margin-right: 4%;
 	}
 
 	.game:nth-child(n+3), .future-game:not(:first-child) {
