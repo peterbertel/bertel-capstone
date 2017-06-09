@@ -67,12 +67,15 @@
 				<div class="col-lg-3 col-md-5 col-sm-5 col-xs-10 game dark-primary-color">
 					<div class="text-primary-color">
 						<div class="team-game-data">
-							{% if game.away_score >= game.home_score %}
+							{% if game.away_score > game.home_score %}
 								<h5 class="text-left winner away_team">{{game.away_team.long_name}}</h5>
 								<h5 class="text-left home_team">{{game.home_team.long_name}}</h5>
-							{% else %}
+							{% elif game.home_score > game.away_score %}
 								<h5 class="text-left away_team">{{game.away_team.long_name}}</h5>
 								<h5 class="text-left winner home_team">{{game.home_team.long_name}}</h5>
+							{% else %}
+								<h5 class="text-left away_team">{{game.away_team.long_name}}</h5>
+								<h5 class="text-left home_team">{{game.home_team.long_name}}</h5>
 							{% endif %}
 						</div>
 						<table class="quarter-points">
@@ -81,7 +84,7 @@
 								<td class="quarter-total away_q2"></td>
 								<td class="quarter-total away_q3"></td>
 								<td class="quarter-total away_q4"></td>
-								{% if game.away_score >= game.home_score %}
+								{% if game.away_score > game.home_score %}
 									<td class="winner">{{game.away_score}}</td>
 								{% else %}
 									<td>{{game.away_score}}</td>
@@ -92,7 +95,7 @@
 								<td class="quarter-total home_q2"></td>
 								<td class="quarter-total home_q3"></td>
 								<td class="quarter-total home_q4"></td>
-								{% if game.home_score >= game.away_score %}
+								{% if game.home_score > game.away_score %}
 									<td class="winner">{{game.home_score}}</td>
 								{% else %}
 									<td>{{game.home_score}}</td>
