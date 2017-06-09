@@ -16,14 +16,14 @@ import json
 def week_view(request, week_id):
 	t = str(request.GET.get('t', ''))
 	w = int(week_id)
-	future_games = []
 	teams_of_games_added = set()
 
 	allTeams = Team.objects.all().filter(long_name__contains=t)
 	filteredGames = []
 	if (len(allTeams) == 0):
-		context = {'games': filteredGames, 'week': w, 'team':"NONE", 'future_games': future_games}
+		context = {'games': filteredGames, 'week': w, 'team':"NONE"}
 		return render(request, 'nfl_scores/week_view.html', context)
+
 	for team in allTeams:
 		home_game = Game.objects.filter(week=w).filter(home_team=team)
 		away_game = Game.objects.filter(week=w).filter(away_team=team)
@@ -39,56 +39,11 @@ def week_view(request, week_id):
 			elif (len(allTeams) == 1):
 				#by enterning this loop, we know that there is a team associated with the substring,
 				#so we can just return without any games -- this means the team is on bye
-				context = {'games': filteredGames, 'week': w, 'team':team.long_name, 'future_games': future_games}
+				context = {'games': filteredGames, 'week': w, 'team':team.long_name}
 				return render(request, 'nfl_scores/week_view.html', context)
-	context = {'games': filteredGames, 'week': w, 'team':t, 'future_games': future_games}
+
+	context = {'games': filteredGames, 'week': w, 'team':t}
 	return render(request, 'nfl_scores/week_view.html', context)
-
-	#  The code commented out below helped gather future games
-
-	# 	team = Team.objects.all().filter(long_name=t)[0]
-	# 	game = Game.objects.filter(week=w).filter(home_team=team)
-	# 	if len(game) == 0:
-	# 		game = Game.objects.filter(week=w).filter(away_team=team)
-	# 		if len(game) == 0:
-	# 			games = Game.objects.filter(week=w)
-	# 			if len(games) == 0:
-	# 				future_games = get_future_games(w, team.long_name)
-	# 				if len(future_games) == 0:
-	# 					context = {'games': games, 'week': w, 'team':t, 'future_games': future_games}
-	# 					return render(request, 'nfl_scores/week_view.html', context)
-	# 			else:
-	# 				context = {'games': game, 'week': w, 'team':t, 'future_games': future_games}
-	# 				return render(request, 'nfl_scores/week_view.html', context)
-	# 	games = game
-	# else:
-	# 	games = Game.objects.filter(week=w)
-	# 	if len(games) == 0:
-	# 		future_games = get_future_games(w)
-
-	# context = {'games': games, 'week': w, 'team':t, 'future_games': future_games}
-
-	# return render(request, 'nfl_scores/week_view.html', context)
-
-def get_future_games(week, team=''):
-	conn = httplib.HTTPSConnection("api.sportradar.us")
-	conn.request("GET", "/nfl-ot1/games/2016/reg/schedule.json?api_key=wnvqxfwz8v8ghu49ycapv3ww")
-	res = conn.getresponse()
-	data = res.read()
-	data = data.decode("utf-8")
-	data = json.loads(data)
-	future_games = data['weeks'][week-1]['games']
-	if len(team) != 0:
-		for game in future_games:
-			if (team in game['home']['name']) or (team in game['away']['name']):
-				future_game = []
-				future_game.append(game)
-				return future_game
-		# return an empty array if the team does not play in
-		#   the specified future week
-		return []
-	else:
-		return future_games
 
 # This method gets NFL game data for a particular week from the nflgame module and loads
 # this data into the SQL database
@@ -99,8 +54,8 @@ def load_weekly_games(request):
 		games = nflgame.games(2016, week=w)
 		if len(games) == 0:
 			return HttpResponse('This week has not happened yet, get the data some other way')
-		for game in games:
 
+		for game in games:
 			home_name = str(game.home)
 			away_name = str(game.away)
 

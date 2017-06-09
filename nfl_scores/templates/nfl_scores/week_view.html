@@ -58,12 +58,10 @@
 		{% if team != '' %}
 			<a href={% url 'week' week %}>Reset</a>
 		{% endif %}
-
 	</form>
 	<div class="games container-fluid">
 		<div class="row text-center">
-			{% if future_games|length == 0 %}
-				{% for game in games %}
+			{% for game in games %}
 				<div class="col-lg-3 col-md-5 col-sm-5 col-xs-10 game dark-primary-color">
 					<div class="text-primary-color">
 						<div class="team-game-data">
@@ -107,20 +105,9 @@
 					display the quarter-by-quarter scoring table -->
 					<input type="checkbox" name="hidden-checkbox">
 				</div>
-				{% endfor %}
-			{% else %}
-				{% for game in future_games %}
-					<div class="col-md-3 col-sm-5 col-xs-10 future-game dark-primary-color" disabled="true">
-						<div class="text-center text-primary-color">
-							<h5>{{game.home.name}}</h5>
-							<h5>{{game.away.name}}</h5>
-						</div>
-					</div>
-				{% endfor %}
-			{% endif %}
+			{% endfor %}
 		</div>
 		{% if games|length == 0 %}
-			<!-- Either the team is on bye or the search string was bad -->
 			{% if team == 'NONE' %}
 				<h4 class="text-center">No teams found, click 'reset' above and try another search.</h4>
 			{% else %}
