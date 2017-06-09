@@ -14,35 +14,61 @@ import json
 
 @cache_page(60 * 5)
 def week_view(request, week_id):
-	t = str(request.GET.get('t', 'NONE'))
+	t = str(request.GET.get('t', ''))
 	w = int(week_id)
 	future_games = []
+	teams_of_games_added = set()
 
-	if t != 'NONE':
-		team = Team.objects.all().filter(long_name=t)[0]
-		game = Game.objects.filter(week=w).filter(home_team=team)
-		if len(game) == 0:
-			game = Game.objects.filter(week=w).filter(away_team=team)
-			if len(game) == 0:
-				# either it is (1) a future week or (2) a past week and the team is on bye
-				games = Game.objects.filter(week=w)
-				if len(games) == 0:
-					future_games = get_future_games(w, team.long_name)
-					if len(future_games) == 0:
-						context = {'games': games, 'week': w, 'team':t, 'future_games': future_games}
-						return render(request, 'nfl_scores/week_view.html', context)
-				else:
-					context = {'games': game, 'week': w, 'team':t, 'future_games': future_games}
-					return render(request, 'nfl_scores/week_view.html', context)
-		games = game
-	else:
-		games = Game.objects.filter(week=w)
-		if len(games) == 0:
-			future_games = get_future_games(w)
-
-	context = {'games': games, 'week': w, 'team':t, 'future_games': future_games}
-
+	allTeams = Team.objects.all().filter(long_name__contains=t)
+	filteredGames = []
+	if (len(allTeams) == 0):
+		context = {'games': filteredGames, 'week': w, 'team':"NONE", 'future_games': future_games}
+		return render(request, 'nfl_scores/week_view.html', context)
+	for team in allTeams:
+		home_game = Game.objects.filter(week=w).filter(home_team=team)
+		away_game = Game.objects.filter(week=w).filter(away_team=team)
+		if (team.long_name not in teams_of_games_added):
+			if (len(home_game) > 0):
+				teams_of_games_added.add(team.long_name)
+				teams_of_games_added.add(home_game[0].away_team.long_name)
+				filteredGames.append(home_game[0])
+			elif (len(away_game) > 0):
+				teams_of_games_added.add(team.long_name)
+				teams_of_games_added.add(away_game[0].home_team.long_name)
+				filteredGames.append(away_game[0])
+			elif (len(allTeams) == 1):
+				#by enterning this loop, we know that there is a team associated with the substring,
+				#so we can just return without any games -- this means the team is on bye
+				context = {'games': filteredGames, 'week': w, 'team':team.long_name, 'future_games': future_games}
+				return render(request, 'nfl_scores/week_view.html', context)
+	context = {'games': filteredGames, 'week': w, 'team':t, 'future_games': future_games}
 	return render(request, 'nfl_scores/week_view.html', context)
+
+	#  The code commented out below helped gather future games
+
+	# 	team = Team.objects.all().filter(long_name=t)[0]
+	# 	game = Game.objects.filter(week=w).filter(home_team=team)
+	# 	if len(game) == 0:
+	# 		game = Game.objects.filter(week=w).filter(away_team=team)
+	# 		if len(game) == 0:
+	# 			games = Game.objects.filter(week=w)
+	# 			if len(games) == 0:
+	# 				future_games = get_future_games(w, team.long_name)
+	# 				if len(future_games) == 0:
+	# 					context = {'games': games, 'week': w, 'team':t, 'future_games': future_games}
+	# 					return render(request, 'nfl_scores/week_view.html', context)
+	# 			else:
+	# 				context = {'games': game, 'week': w, 'team':t, 'future_games': future_games}
+	# 				return render(request, 'nfl_scores/week_view.html', context)
+	# 	games = game
+	# else:
+	# 	games = Game.objects.filter(week=w)
+	# 	if len(games) == 0:
+	# 		future_games = get_future_games(w)
+
+	# context = {'games': games, 'week': w, 'team':t, 'future_games': future_games}
+
+	# return render(request, 'nfl_scores/week_view.html', context)
 
 def get_future_games(week, team=''):
 	conn = httplib.HTTPSConnection("api.sportradar.us")

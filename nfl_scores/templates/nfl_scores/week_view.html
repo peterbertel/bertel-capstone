@@ -54,8 +54,8 @@
 	<form id="search-team" class="team-search">
 		<input id="search-query" type="text" list="json-datalist" name="t" placeholder="Search for a team">
 		<datalist id="json-datalist"></datalist>
-		<input id="submit-team" type="submit" value="Search" disabled="disabled">
-		{% if team != 'NONE' %}
+		<input id="submit-team" type="submit" value="Search">
+		{% if team != '' %}
 			<a href={% url 'week' week %}>Reset</a>
 		{% endif %}
 
@@ -116,8 +116,13 @@
 				{% endfor %}
 			{% endif %}
 		</div>
-		{% if games|length == 0 and future_games|length == 0 %}
-			<h4 class="text-center">The {{team}} are on bye this week.</h4>
+		{% if games|length == 0 %}
+			<!-- Either the team is on bye or the search string was bad -->
+			{% if team == 'NONE' %}
+				<h4 class="text-center">No teams found, click 'reset' above and try another search.</h4>
+			{% else %}
+				<h4 class="text-center">The {{team}} are on bye this week.</h4>
+			{% endif %}
 		{% endif %}
 	</div>
 </body>
@@ -212,12 +217,6 @@
 						teams = data.teams;
 						for (var i = 0; i < teams.length; i++) {
 							teamName = teams[i].name;
-							if (searchString == teamName) {
-								$("#submit-team").removeAttr('disabled')
-							}
-							else {
-								$("#submit-team").attr('disabled', 'disabled');
-							}
 							if (!teamSet.has(teamName)) {
 								teamSet.add(teamName);
 								var option = document.createElement('option');
