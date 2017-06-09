@@ -172,6 +172,10 @@ th, td {
 	.game:not(:first-child), .conference:not(:first-child), .future-game:not(:first-child) {
 		margin-top: 20px;
 	}
+
+	h1 {
+		font-size: 27px;
+	}
 }
 
 /*This is the media query that safari doesn't like - and the one that iphones get stuck on*/
