@@ -3,4 +3,3 @@ Django==1.9.12
 httplib2==0.10.3
 nflgame==1.2.20
 pytz==2017.2
-djangorestframework==3.6.3

@@ -113,6 +113,27 @@ def get_teams(request):
 
 	return JsonResponse({'teams': returnTeams})
 
+def get_games(request):
+	week = request.GET.get('week', 1)
+	games = Game.objects.filter(week=week)
+	returnGames = []
+	for game in games:
+		game = {
+			'home_team': game.home_team.long_name, \
+			'away_team': game.away_team.long_name, \
+			'home_score': game.home_score, \
+			'home_points_q1': game.home_points_q1, \
+			'home_points_q2': game.home_points_q2, \
+			'home_points_q3': game.home_points_q3, \
+			'home_points_q4': game.home_points_q4, \
+			'away_score': game.away_score, \
+			'away_points_q1': game.away_points_q1, \
+			'away_points_q2': game.away_points_q2, \
+			'away_points_q3': game.away_points_q3, \
+			'away_points_q4': game.away_points_q4 }
+		returnGames.append(game)
+	return JsonResponse({'games': returnGames})
+
 def load_all_games(request):
 	n = 0
 	for w in range(17):
