@@ -124,6 +124,10 @@ th, td {
 /* Media Queries */
 
 @media (max-width: 330px) {
+	h1 {
+		font-size: 22px;
+	}
+
 	.btn.next-week.dark-primary-color, .btn.previous-week.dark-primary-color {
 		padding-left: 20px;
 		padding-right: 20px;
@@ -131,6 +135,10 @@ th, td {
 }
 
 @media (max-width: 392px) {
+	h1 {
+		font-size: 23px;
+	}
+
 	.current-week button {
 		padding-left: 15px;
 		padding-right: 15px;
