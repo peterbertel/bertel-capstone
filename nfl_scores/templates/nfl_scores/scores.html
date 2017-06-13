@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Scores</title>
+	{% load static %}
+	<link rel="stylesheet" type="text/css" href="{% static 'nfl_scores/bootstrap.min.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'nfl_scores/mdbootstrap.compiled.min.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'nfl_scores/main.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'nfl_scores/palette.css' %}">
+	{% load static %}
+	<script src="{% static 'nfl_scores/angular.min.js' %}"></script>
+	<script src="{% static 'nfl_scores/main.js' %}"></script>
+</head>
+<body class="light-primary-color" ng-app="{% block ng-app %}nflScoresApp{% endblock %}" ng-controller="{% block ng-controller %}weekCtrl{% endblock %}">
+	<nav class="navbar text-center">
+		<h1 class="text-primary-color">2016-2017 NFL Game Scores</h1>
+		<a href="/standings"><h4 class="text-center text-primary-color">Standings</h4></a>
+	</nav>
+	{% block content %}
+	{% verbatim %}
+	<div class="week-nav text-center container">
+		<div ng-if="week <= 1" class="previous-week btn blank-button">
+			<h4><span>&lt;</span>{{week-1}}</h4>
+		</div>
+		<a ng-if="week >= 2" ng-click="previousWeek()">
+			<div class="previous-week btn dark-primary-color">
+				<h4><span>&lt;</span>{{week-1}}</h4>
+			</div>
+		</a>
+		<div class="current-week btn-group">
+			<button class="btn btn-primary dropdown-toggle accent-color" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				<h4>Week {{week}}</h4>
+		  	</button>
+		  	<div class="dropdown-menu">
+		  		<a class="dropdown-item" ng-repeat="w in getNumWeeks() track by $index" ng-click="changeWeek($index+1)">{{$index+1}}</a>
+		  	</div>
+		</div>
+		<a ng-if="week <= 16" ng-click="nextWeek()">
+			<div class="next-week btn dark-primary-color">
+				<h4>{{week+1}}<span>&gt;</span></h4>
+			</div>
+		</a>
+		<div ng-if="week >= 17" class="next-week btn blank-button">
+			<h4>{{week+1}}<span>&gt;</span></h4>
+		</div>
+	</div>
+	<form id="search-team" class="team-search">
+		<input id="search-query" type="text" list="json-datalist" name="t" placeholder="Search for a team" ng-model="searchString">
+	</form>
+	<div class="games container-fluid">
+		<div class="row text-center">
+			<div ng-repeat="game in games | filter: searchString" ng-click="showQuarterPoints(game)" class="col-lg-3 col-md-5 col-sm-5 col-xs-10 game dark-primary-color">
+				<div class="text-primary-color">
+					<div class="team-game-data">
+
+						<!-- Show this if away team scored more than home -->
+						<h5 ng-if="game.away_score > game.home_score" class="text-left winner away_team">{{game.away_team}}</h5>
+						<h5 ng-if="game.away_score > game.home_score" class="text-left home_team">{{game.home_team}}</h5>
+
+						<!-- Show this if home team scored more than away -->
+						<h5 ng-if="game.home_score > game.away_score" class="text-left away_team">{{game.away_team}}</h5>
+						<h5 ng-if="game.home_score > game.away_score" class="text-left winner home_team">{{game.home_team}}</h5>
+
+						<!-- Show this if the game was tied -->
+						<h5 ng-if="game.home_score === game.away_score" class="text-left away_team">{{game.away_team}}</h5>
+						<h5 ng-if="game.home_score === game.away_score" class="text-left home_team">{{game.home_team}}</h5>
+
+					</div>
+					<table class="quarter-points">
+						<tr align="right" class="top-table-row">
+							<td class="quarter-total"><span ng-show="game.show_quarter_points">{{game.away_points_q1}}</span></td>
+							<td class="quarter-total"><span ng-show="game.show_quarter_points">{{game.away_points_q2}}</span></td>
+							<td class="quarter-total"><span ng-show="game.show_quarter_points">{{game.away_points_q3}}</span></td>
+							<td class="quarter-total"><span ng-show="game.show_quarter_points">{{game.away_points_q4}}</span></td>
+							<td ng-if="game.away_score > game.home_score" class="winner">{{game.away_score}}</td>
+							<td ng-if="game.away_score <= game.home_score">{{game.away_score}}</td>
+						</tr>
+						<tr align="right">
+							<td class="quarter-total"><span ng-show="game.show_quarter_points">{{game.home_points_q1}}</span></td>
+							<td class="quarter-total"><span ng-show="game.show_quarter_points">{{game.home_points_q2}}</span></td>
+							<td class="quarter-total"><span ng-show="game.show_quarter_points">{{game.home_points_q3}}</span></td>
+							<td class="quarter-total"><span ng-show="game.show_quarter_points">{{game.home_points_q4}}</span></td>
+							<td ng-if="game.home_score > game.away_score" class="winner">{{game.home_score}}</td>
+							<td ng-if="game.home_score <= game.away_score">{{game.home_score}}</td>
+						</tr>
+					</table>
+				</div>
+				<input type="checkbox" name="hidden-checkbox">
+			</div>
+			<!-- Solution found from: 
+			https://stackoverflow.com/questions/21524572/how-to-show-a-message-when-filter-returns-nothing-in-ng-repeat-angularjs -->
+		</div>
+		<div ng-hide="(games|filter:searchString).length" class="text-center">
+			<h4 ng-hide="searchStringIsATeam()" class="text-center">No teams matched your search, try again.</h4>
+			<h4 ng-show="searchStringIsATeam()" class="text-center">The <span class="text-capitalize">{{searchString}}</span> are on bye this week.</h4>
+		</div>
+	</div>
+	{% endverbatim %}
+	{% endblock %}
+</body>
+	<script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+	<script>$("#search-query").attr('autocomplete','off');</script>
+</html>

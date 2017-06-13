@@ -19,12 +19,9 @@ from nfl_scores import views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^week_view/(?P<week_id>[0-9]+)$', views.week_view, name="week"),
-    url(r'^load_weekly_games/$', views.load_weekly_games, name="load_weekly_games"),
+    url(r'^scores/$', views.ScoresView.as_view(), name="scores"),
     url(r'^standings/$', views.standings, name="standings"),
-    url(r'^get_teams/$', views.get_teams, name="get_teams"),
     url(r'^get_games/$', views.get_games, name="get_games"),
     url(r'^load_all_games/$', views.load_all_games, name="load_all_games"),
     url(r'^load_sportradar_data/$', views.load_sportradar_data, name="load_sportradar_data"),
-    url(r'^get_quarter_points/$', views.get_quarter_points, name="get_quarter_points"),
 ]
