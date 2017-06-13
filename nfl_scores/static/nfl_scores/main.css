@@ -124,21 +124,18 @@ th, td {
 /* Media Queries */
 
 @media (max-width: 330px) {
-	h1 {
+	nav h1 {
 		font-size: 22px;
 	}
+}
 
-	.btn.next-week.dark-primary-color, .btn.previous-week.dark-primary-color {
-		padding-left: 20px;
-		padding-right: 20px;
+@media (min-width: 331px) and (max-width: 392px) {
+	nav h1 {
+		font-size: 23px;
 	}
 }
 
 @media (max-width: 392px) {
-	h1 {
-		font-size: 23px;
-	}
-
 	.current-week button {
 		padding-left: 15px;
 		padding-right: 15px;
