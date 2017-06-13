@@ -24,7 +24,7 @@
 			<h4><span>&lt;</span>{{week-1}}</h4>
 		</div>
 		<a ng-if="week >= 2" ng-click="previousWeek()">
-			<div class="previous-week btn dark-primary-color">
+			<div class="btn previous-week dark-primary-color">
 				<h4><span>&lt;</span>{{week-1}}</h4>
 			</div>
 		</a>
@@ -37,7 +37,7 @@
 		  	</div>
 		</div>
 		<a ng-if="week <= 16" ng-click="nextWeek()">
-			<div class="next-week btn dark-primary-color">
+			<div class="btn next-week dark-primary-color">
 				<h4>{{week+1}}<span>&gt;</span></h4>
 			</div>
 		</a>
@@ -92,7 +92,7 @@
 			https://stackoverflow.com/questions/21524572/how-to-show-a-message-when-filter-returns-nothing-in-ng-repeat-angularjs -->
 		</div>
 		<div ng-hide="(games|filter:searchString).length" class="text-center">
-			<h4 ng-hide="searchStringIsATeam()" class="text-center">No teams matched your search, try again.</h4>
+			<h4 ng-hide="searchStringIsATeam()" class="text-center">No teams matched your search.</h4>
 			<h4 ng-show="searchStringIsATeam()" class="text-center">The <span class="text-capitalize">{{searchString}}</span> are on bye this week.</h4>
 		</div>
 	</div>

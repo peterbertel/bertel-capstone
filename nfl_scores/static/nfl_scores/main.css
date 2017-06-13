@@ -120,42 +120,31 @@ th, td {
 	font-weight: 300;
 }
 
-/* Hack to give me correct offset amount. Found from:
-	http://stackoverflow.com/questions/30846378/bootstrap-center-3-col-md-3-divs */
-@media (min-width: 1120px) {
-	.game:nth-child(n+4), .future-game:nth-child(n+4) {
-		margin-top: 20px;
-	}
 
-	.game:nth-child(3n+1), .future-game:nth-child(3n+1), .team-search {
-		margin-left: 8.3333333333%;
-	}
+/* Media Queries */
 
-	.game:not(:nth-child(3n+1)), .future-game:not(:nth-child(3n+1)) {
-		margin-left: 4.16666666666667%;
+@media (max-width: 330px) {
+	.btn.next-week.dark-primary-color, .btn.previous-week.dark-primary-color {
+		padding-left: 20px;
+		padding-right: 20px;
 	}
 }
 
-@media (max-width: 1120px) and (min-width: 991px) {
-	/*.game:nth-child(even), .future-game:nth-child(even), .conference:nth-child(even) {
-		margin-left: 4.16666666666667%;
-	}
-	.game:nth-child(odd), .future-game:nth-child(odd), .conference:nth-child(odd), .team-search {
-		margin-left: 6.25%;
-	}
-	.game:nth-child(n+3), .future-game:nth-child(n+3), .conference:nth-child(n+3) {
-		margin-top: 20px;
-	}*/
-	.game:nth-child(n+4), .future-game:nth-child(n+4) {
-		margin-top: 20px;
+@media (max-width: 392px) {
+	.current-week button {
+		padding-left: 15px;
+		padding-right: 15px;
 	}
 
-	.game:nth-child(3n+1), .future-game:nth-child(3n+1), .team-search {
-		margin-left: 6.25%;
+	.btn.next-week.dark-primary-color, .btn.previous-week.dark-primary-color {
+		padding-left: 20px;
+		padding-right: 20px;
 	}
+}
 
-	.game:not(:nth-child(3n+1)), .future-game:not(:nth-child(3n+1)) {
-		margin-left: 6.25%;
+@media (max-width: 427px) {
+	h4 {
+		font-size: 18px;
 	}
 }
 
@@ -195,6 +184,34 @@ th, td {
 		margin-left: 22.75%;
 	}
 	.conference:nth-child(2) {
+		margin-left: 4.16666666666667%;
+	}
+}
+
+@media (min-width: 991px) and (max-width: 1120px) {
+	.game:nth-child(n+4), .future-game:nth-child(n+4) {
+		margin-top: 20px;
+	}
+
+	.game:nth-child(3n+1), .future-game:nth-child(3n+1), .team-search {
+		margin-left: 6.25%;
+	}
+
+	.game:not(:nth-child(3n+1)), .future-game:not(:nth-child(3n+1)) {
+		margin-left: 6.25%;
+	}
+}
+
+@media (min-width: 1120px) {
+	.game:nth-child(n+4), .future-game:nth-child(n+4) {
+		margin-top: 20px;
+	}
+
+	.game:nth-child(3n+1), .future-game:nth-child(3n+1), .team-search {
+		margin-left: 8.3333333333%;
+	}
+
+	.game:not(:nth-child(3n+1)), .future-game:not(:nth-child(3n+1)) {
 		margin-left: 4.16666666666667%;
 	}
 }
