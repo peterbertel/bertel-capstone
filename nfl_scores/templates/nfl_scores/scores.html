@@ -20,11 +20,13 @@
 	{% block content %}
 	{% verbatim %}
 	<div class="week-nav text-center container">
-		<div ng-if="week <= 1" class="previous-week btn blank-button">
-			<h4><span>&lt;</span>{{week-1}}</h4>
-		</div>
+		<a ng-if="week <= 1">
+			<div class="previous-week btn dark-primary-color blank-button">
+				<h4><span>&lt;</span>{{week-1}}</h4>
+			</div>
+		</a>
 		<a ng-if="week >= 2" ng-click="previousWeek()">
-			<div class="btn previous-week dark-primary-color">
+			<div class="previous-week btn dark-primary-color">
 				<h4><span>&lt;</span>{{week-1}}</h4>
 			</div>
 		</a>
@@ -37,11 +39,11 @@
 		  	</div>
 		</div>
 		<a ng-if="week <= 16" ng-click="nextWeek()">
-			<div class="btn next-week dark-primary-color">
+			<div class="next-week btn dark-primary-color">
 				<h4>{{week+1}}<span>&gt;</span></h4>
 			</div>
 		</a>
-		<div ng-if="week >= 17" class="next-week btn blank-button">
+		<div ng-if="week >= 17" class="next-week btn dark-primary-color blank-button">
 			<h4>{{week+1}}<span>&gt;</span></h4>
 		</div>
 	</div>

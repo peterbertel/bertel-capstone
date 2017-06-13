@@ -41,7 +41,7 @@ body {
 
 .blank-button {
 	color: #C8E6C9;
-	background-color: #C8E6C9;
+	background-color: #C8E6C9!important;
 	border: none;
 	pointer-events:none;
 	box-shadow: none;
