@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = ')&-vuxebvlzr9h6o+*mono8q+fxkai-d%nq_$!o#ys-jonw#*@'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = [
     'localhost', '.nfl-django-env.irqgfmpwhb.us-west-2.elasticbeanstalk.com'
