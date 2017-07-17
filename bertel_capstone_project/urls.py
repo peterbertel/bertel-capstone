@@ -19,7 +19,7 @@ from nfl_scores import views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^scores/$', views.ScoresView.as_view(), name="scores"),
+    url(r'^$', views.ScoresView.as_view(), name="scores"),
     url(r'^standings/$', views.standings, name="standings"),
     url(r'^get_games/$', views.get_games, name="get_games"),
     url(r'^load_all_games/$', views.load_all_games, name="load_all_games"),
