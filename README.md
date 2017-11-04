@@ -2,4 +2,4 @@
 
 This app shows the scores of all the games in the 2016-2017 National Football League (NFL) season.
 
-[Click here to see the app!](http://nfl-django-env.irqgfmpwhb.us-west-2.elasticbeanstalk.com/week_view/1)
+Update: The app is being developed further and is not available at the moment. Check in later!
